@@ -1,0 +1,12 @@
+C:\Work\BND\BND_Assessment\API.Database\bin\Debug\net6.0\API.Database.deps.json
+C:\Work\BND\BND_Assessment\API.Database\bin\Debug\net6.0\API.Database.dll
+C:\Work\BND\BND_Assessment\API.Database\bin\Debug\net6.0\API.Database.pdb
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.csproj.AssemblyReference.cache
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.AssemblyInfoInputs.cache
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.AssemblyInfo.cs
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.csproj.CoreCompileInputs.cache
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.dll
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\refint\API.Database.dll
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\API.Database.pdb
+C:\Work\BND\BND_Assessment\API.Database\obj\Debug\net6.0\ref\API.Database.dll

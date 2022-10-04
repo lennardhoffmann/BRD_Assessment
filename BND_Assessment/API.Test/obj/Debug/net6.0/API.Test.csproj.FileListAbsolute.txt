@@ -1,0 +1,6 @@
+C:\Work\BND\BND_Assessment\API.Test\bin\Debug\net6.0\CoverletSourceRootsMapping
+C:\Work\BND\BND_Assessment\API.Test\obj\Debug\net6.0\API.Test.csproj.AssemblyReference.cache
+C:\Work\BND\BND_Assessment\API.Test\obj\Debug\net6.0\API.Test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\BND\BND_Assessment\API.Test\obj\Debug\net6.0\API.Test.AssemblyInfoInputs.cache
+C:\Work\BND\BND_Assessment\API.Test\obj\Debug\net6.0\API.Test.AssemblyInfo.cs
+C:\Work\BND\BND_Assessment\API.Test\obj\Debug\net6.0\API.Test.csproj.CoreCompileInputs.cache

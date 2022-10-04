@@ -1,14 +1,27 @@
-﻿using Database.Repositories;
+﻿using Api.Database.Models;
+using Api.Database.Repositories;
 
 namespace API.Services
 {
-    public class CustomerService:ICustomerService
+    public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
 
         public CustomerService(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
+        }
+
+        public async Task<Customer> CreateCustomer(Customer customer)
+        {
+            var createdCustomer = await _customerRepository.CreateCustomerAsync(customer);
+            return createdCustomer;
+        }
+
+        public async Task<Customer> UpdateCustomer(Customer customer)
+        {
+            var updatedCustomer = await _customerRepository.UpdateCustomerAsync(customer);
+            return updatedCustomer;
         }
     }
 }

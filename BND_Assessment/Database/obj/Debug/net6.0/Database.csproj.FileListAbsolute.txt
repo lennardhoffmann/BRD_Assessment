@@ -1,0 +1,5 @@
+C:\Work\BND\BND_Assessment\Database\obj\Debug\net6.0\Database.csproj.AssemblyReference.cache
+C:\Work\BND\BND_Assessment\Database\obj\Debug\net6.0\Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\BND\BND_Assessment\Database\obj\Debug\net6.0\Database.AssemblyInfoInputs.cache
+C:\Work\BND\BND_Assessment\Database\obj\Debug\net6.0\Database.AssemblyInfo.cs
+C:\Work\BND\BND_Assessment\Database\obj\Debug\net6.0\Database.csproj.CoreCompileInputs.cache

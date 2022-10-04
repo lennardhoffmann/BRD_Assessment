@@ -11,6 +11,6 @@ namespace API.Test.Extensions
         public static DbContextOptionsBuilder SetupInMemoryTestDatabase(this DbContextOptionsBuilder builder, string namedInstance) =>
             builder
                 .UseInMemoryDatabase(namedInstance)
-                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
     }
 }

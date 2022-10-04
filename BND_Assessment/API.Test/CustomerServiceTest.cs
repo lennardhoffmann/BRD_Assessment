@@ -1,7 +1,8 @@
 using API.Services;
-using API.Test.Mocks;
-using Database;
+using Database.Models;
 using Database.Repositories;
+using FluentAssertions;
+using Xunit;
 
 namespace API.Test
 {
@@ -13,6 +14,14 @@ namespace API.Test
         public CustomerServiceTest()
         {
             _sut = new CustomerService(_customerRepository);
+        }
+
+        [Fact]
+        public async Task CreateCustomer_ValidData_ReturnsCreatedCustomerRecord()
+        {
+            var result = await _sut.CreateCustomer(new Customer());
+
+            result.Should().NotBeNull();
         }
     }
 }

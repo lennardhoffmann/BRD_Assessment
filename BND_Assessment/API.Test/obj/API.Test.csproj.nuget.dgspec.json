@@ -4,6 +4,73 @@
     "C:\\Work\\BND\\BND_Assessment\\API.Test\\API.Test.csproj": {}
   },
   "projects": {
+    "C:\\Work\\BND\\BND_Assessment\\API.Database\\API.Database.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Work\\BND\\BND_Assessment\\API.Database\\API.Database.csproj",
+        "projectName": "API.Database",
+        "projectPath": "C:\\Work\\BND\\BND_Assessment\\API.Database\\API.Database.csproj",
+        "packagesPath": "C:\\Users\\lfran\\.nuget\\packages\\",
+        "outputPath": "C:\\Work\\BND\\BND_Assessment\\API.Database\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\lfran\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/interceptvsts/8cbf32c2-ff1f-4ffd-86b7-b4cd95f2de8b/_packaging/InterceptDevelopmentFeed/nuget/v3/index.json": {},
+          "https://pkgs.dev.azure.com/interceptvsts/_packaging/InterceptFeed/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Work\\BND\\BND_Assessment\\API.Test\\API.Test.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -36,9 +103,6 @@
             "projectReferences": {
               "C:\\Work\\BND\\BND_Assessment\\API\\API.csproj": {
                 "projectPath": "C:\\Work\\BND\\BND_Assessment\\API\\API.csproj"
-              },
-              "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj": {
-                "projectPath": "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj"
               }
             }
           }
@@ -53,6 +117,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.7.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.9, )"
@@ -132,8 +200,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj": {
-                "projectPath": "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj"
+              "C:\\Work\\BND\\BND_Assessment\\API.Database\\API.Database.csproj": {
+                "projectPath": "C:\\Work\\BND\\BND_Assessment\\API.Database\\API.Database.csproj"
               }
             }
           }
@@ -150,7 +218,7 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[7.0.0-rc.1.22426.7, )"
+              "version": "[6.0.9, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -172,73 +240,6 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj",
-        "projectName": "Database",
-        "projectPath": "C:\\Work\\BND\\BND_Assessment\\Database\\Database.csproj",
-        "packagesPath": "C:\\Users\\lfran\\.nuget\\packages\\",
-        "outputPath": "C:\\Work\\BND\\BND_Assessment\\Database\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\lfran\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net6.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/interceptvsts/8cbf32c2-ff1f-4ffd-86b7-b4cd95f2de8b/_packaging/InterceptDevelopmentFeed/nuget/v3/index.json": {},
-          "https://pkgs.dev.azure.com/interceptvsts/_packaging/InterceptFeed/nuget/v3/index.json": {}
-        },
-        "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[6.0.9, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
