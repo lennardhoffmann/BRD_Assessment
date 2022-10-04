@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repositories
 {
-    internal class CustomerAccountRepository : ICustomerAccountRepository
+    public class CustomerAccountRepository : ICustomerAccountRepository
     {
         private readonly ApiContext _context;
 
