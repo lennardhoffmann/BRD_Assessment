@@ -1,5 +1,5 @@
 ﻿using API.Test.Extensions;
-using Database;
+using Api.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Test.Mocks

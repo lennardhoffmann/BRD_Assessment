@@ -1,8 +1,9 @@
 using API.Services;
-using Database.Models;
-using Database.Repositories;
+using Api.Database.Models;
+using Api.Database.Repositories;
 using FluentAssertions;
-using Xunit;
+using API.Test.Mocks;
+using API.Test.ObjectBuilders;
 
 namespace API.Test
 {
@@ -13,15 +14,30 @@ namespace API.Test
 
         public CustomerServiceTest()
         {
+            _customerRepository = new CustomerRepository(ApiContextMock.GetContext());
             _sut = new CustomerService(_customerRepository);
         }
 
         [Fact]
-        public async Task CreateCustomer_ValidData_ReturnsCreatedCustomerRecord()
+        public async Task CreateCustomer_ValidCustomerData_ReturnsCreatedCustomerRecord()
         {
-            var result = await _sut.CreateCustomer(new Customer());
+            var customer = new CustomerBuilder().Build();
+            var result = await _sut.CreateCustomer(customer);
 
-            result.Should().NotBeNull();
+            result.Id.Should().Be(1);
+            result.FirstName.Should().Be(customer.FirstName);
+            result.LastName.Should().Be(customer.LastName);
+            result.Email.Should().Be(result.Email);
+        }
+
+        [Fact]
+        public async Task CreateCustomer_InvalidCustomerData_ThrowsException()
+        {
+            Customer invalidCustomer = null;
+
+            await _sut.Invoking(sut => sut.CreateCustomer(invalidCustomer))
+                        .Should()
+                        .ThrowAsync<Exception>();
         }
     }
 }
