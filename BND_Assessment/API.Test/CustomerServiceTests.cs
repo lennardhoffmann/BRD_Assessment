@@ -8,13 +8,13 @@ using API.Database;
 
 namespace API.Test
 {
-    public class CustomerServiceTest
+    public class CustomerServiceTests
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly ApiContext _context = ApiContextMock.GetContext();
         private readonly CustomerService _sut;
 
-        public CustomerServiceTest()
+        public CustomerServiceTests()
         {
             _customerRepository = new CustomerRepository(_context);
             _sut = new CustomerService(_customerRepository);

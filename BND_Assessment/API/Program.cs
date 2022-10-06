@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Assess
 
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<ICustomerAccountRepository, CustomerAccountRepository>();
+builder.Services.AddTransient<IServiceChargeRepository, ServiceChargeRepository>();
 
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerAccountService, CustomerAccountService>();
