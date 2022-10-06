@@ -7,5 +7,6 @@ namespace API.Services
         Task<CustomerAccount> CreateCustomerAccount(CustomerAccount accountData);
         Task<CustomerAccount> GetCustomerAccountById(int id);
         Task<CustomerAccount> GetCustomerAccountByCusytomerId(int customerId);
+        Task<CustomerAccount> DepositAmount(int id, double amount);
     }
 }

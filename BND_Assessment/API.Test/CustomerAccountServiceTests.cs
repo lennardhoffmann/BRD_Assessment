@@ -133,5 +133,23 @@ namespace API.Test
                         .Should()
                         .ThrowAsync<Exception>();
         }
+
+        [Fact]
+        public async Task DepositAmount_ReturnsUpdatedCustomerAccount()
+        {
+            var customerId = 1;
+            var customerAccountId = 1;
+            var depositAmount = 50;
+            var accountData = new CustomerAccountBuilder()
+                                    .WithCustomerId(customerId)
+                                    .Build();
+
+            _context.CustomerAccounts.Add(accountData);
+            await _context.SaveChangesAsync();
+
+            var result = await _sut.DepositAmount(customerAccountId, depositAmount);
+
+            result.Balance.ShouldBe(150);
+        }
     }
 }
