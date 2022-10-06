@@ -1,7 +1,10 @@
+using ProxyKit;
+using UI;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddProxy();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -16,6 +19,20 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+var apiSettings = new ApiSettings();
+
+app.Configuration.Bind("Api", apiSettings);
+
+app.Map("/api", api =>
+{
+    api.RunProxy(async context =>
+    {
+        var forwardContext = context.ForwardTo(apiSettings.ForwardUrl);
+
+        return await forwardContext.Send();
+    });
+});
 
 
 app.MapControllerRoute(
