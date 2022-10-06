@@ -1,6 +1,7 @@
 ﻿using API.Database;
 using API.Database.Models;
 using API.Database.Repositories;
+using API.Models;
 using API.Services;
 using API.Test.Mocks;
 using API.Test.ObjectBuilders;
@@ -138,8 +139,13 @@ namespace API.Test
         public async Task DepositAmount_ReturnsUpdatedCustomerAccount()
         {
             var customerId = 1;
-            var customerAccountId = 1;
-            var depositAmount = 50;
+            var depositDetails = new DepositDetails
+            {
+                DepositAmount = 50,
+                CustomerAccountId = 1
+            };
+            var newBalance = 100 + (50 * 0.99999);
+
             var accountData = new CustomerAccountBuilder()
                                     .WithCustomerId(customerId)
                                     .Build();
@@ -147,9 +153,9 @@ namespace API.Test
             _context.CustomerAccounts.Add(accountData);
             await _context.SaveChangesAsync();
 
-            var result = await _sut.DepositAmount(customerAccountId, depositAmount);
+            var result = await _sut.DepositAmount(depositDetails);
 
-            result.Balance.Should().Be(150);
+            result.Balance.Should().Be(newBalance);
         }
     }
 }

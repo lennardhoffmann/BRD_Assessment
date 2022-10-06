@@ -48,7 +48,7 @@ namespace API.Controllers
 
             var serviceCharge = new ServiceCharge
             {
-                Amount = depositDetails.ServiceChargeAmount,
+                Amount = (depositDetails.DepositAmount * 0.001),
                 CustomerAccountReferenceId = depositDetails.CustomerAccountId,
                 TransactionDate = DateTime.Now
             };

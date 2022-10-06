@@ -4,6 +4,5 @@
     {
         public int CustomerAccountId { get; set; }
         public double DepositAmount { get; set; }
-        public double ServiceChargeAmount { get; set; }
     }
 }

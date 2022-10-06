@@ -64,7 +64,7 @@ namespace API.Services
                 throw new Exception();
             }
 
-            customerAccount.Balance += depositDetails.DepositAmount;
+            customerAccount.Balance += (depositDetails.DepositAmount * 0.99999);
 
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
 
