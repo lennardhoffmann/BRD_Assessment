@@ -37,7 +37,7 @@ namespace API.Controllers
         }
 
         [HttpPost("customer")]
-        public async Task<IActionResult> Post([FromBody] DetailedCustomer customerData)
+        public async Task<IActionResult> CreateAccount([FromBody] DetailedCustomer customerData)
         {
             var customerCreateResponse = await _customerService.CreateCustomer(customerData.CustomerDetails);
             customerData.CustomerAccountDetails.CustomerId = customerCreateResponse.Id;

@@ -144,11 +144,12 @@ namespace API.Test
                 DepositAmount = 50,
                 CustomerAccountId = 1
             };
-            var newBalance = 100 + (50 * 0.99999);
 
             var accountData = new CustomerAccountBuilder()
                                     .WithCustomerId(customerId)
                                     .Build();
+
+            var newBalance = accountData.Balance + (50 * 0.99999);
 
             _context.CustomerAccounts.Add(accountData);
             await _context.SaveChangesAsync();

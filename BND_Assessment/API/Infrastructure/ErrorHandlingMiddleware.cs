@@ -25,9 +25,10 @@ namespace API.Infrastructure
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             HttpStatusCode status;
-            var stackTrace = String.Empty;
             string message;
             var exceptionType = exception.GetType();
+            string? stackTrace;
+
             if (exceptionType == typeof(BadRequestException))
             {
                 message = exception.Message;
@@ -69,8 +70,10 @@ namespace API.Infrastructure
                 error = message,
                 stackTrace
             });
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
+
             return context.Response.WriteAsync(exceptionResult);
         }
     }
