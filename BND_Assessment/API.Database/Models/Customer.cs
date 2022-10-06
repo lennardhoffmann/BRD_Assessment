@@ -1,4 +1,4 @@
-﻿namespace Api.Database.Models
+﻿namespace API.Database.Models
 {
     public class Customer
     {

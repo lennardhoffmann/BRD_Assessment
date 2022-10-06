@@ -1,5 +1,5 @@
-﻿using Api.Database.Models;
-using Api.Database.Repositories;
+﻿using API.Database.Models;
+using API.Database.Repositories;
 using API.Models;
 
 namespace API.Services

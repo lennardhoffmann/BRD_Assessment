@@ -1,6 +1,6 @@
-﻿using Api.Database.Models;
+﻿using API.Database.Models;
 
-namespace Api.Database.Repositories
+namespace API.Database.Repositories
 {
     public interface ICustomerAccountRepository
     {

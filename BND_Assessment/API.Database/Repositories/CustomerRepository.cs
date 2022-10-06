@@ -1,7 +1,7 @@
-﻿using Api.Database.Models;
+﻿using API.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Database.Repositories
+namespace API.Database.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {

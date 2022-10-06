@@ -1,10 +1,10 @@
 using API.Services;
-using Api.Database.Models;
-using Api.Database.Repositories;
+using API.Database.Models;
+using API.Database.Repositories;
 using FluentAssertions;
 using API.Test.Mocks;
 using API.Test.ObjectBuilders;
-using Api.Database;
+using API.Database;
 
 namespace API.Test
 {
