@@ -48,6 +48,21 @@ namespace API.Services
             return customerAccount;
         }
 
+        public async Task<CustomerAccount> DepositAmount(int id, double amount)
+        {
+            var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(id);
+            if (customerAccount == null)
+            {
+                throw new Exception();
+            }
+
+            customerAccount.Balance += amount;
+
+            var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
+
+            return updateResponse;
+        }
+
         private string GenerateIBAN()
         {
             var controlCode = new Random().Next(0, 100).ToString("D");

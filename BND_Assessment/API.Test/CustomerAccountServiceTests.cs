@@ -149,7 +149,7 @@ namespace API.Test
 
             var result = await _sut.DepositAmount(customerAccountId, depositAmount);
 
-            result.Balance.ShouldBe(150);
+            result.Balance.Should().Be(150);
         }
     }
 }
