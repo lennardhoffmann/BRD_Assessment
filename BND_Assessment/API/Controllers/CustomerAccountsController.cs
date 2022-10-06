@@ -28,17 +28,11 @@ namespace API.Controllers
             return Ok(customerAccounts);
         }
 
-        [HttpGet("customerAccount/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAccount(int id)
         {
             var customerAccount = await _customerAccountService.GetCustomerAccountById(id);
             return Ok(customerAccount);
-        }
-
-        // POST api/<CustomerAccountsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
         }
 
         [HttpPut("deposit")]

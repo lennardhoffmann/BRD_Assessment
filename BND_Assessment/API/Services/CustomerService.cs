@@ -36,7 +36,7 @@ namespace API.Services
             var customer = await _customerRepository.GetCustomerByIdAsync(id);
             if (customer == null)
             {
-                throw new Exception();
+                throw new Exception($"Could not retrieve customer with Id {id}");
             }
 
             return customer;

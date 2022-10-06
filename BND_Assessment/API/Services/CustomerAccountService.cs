@@ -33,7 +33,7 @@ namespace API.Services
             var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(id);
             if (customerAccount == null)
             {
-                throw new Exception();
+                throw new NotFoundException($"Could not retrieve CustomerAccount with Id {id}");
             }
 
             return customerAccount;
@@ -44,7 +44,7 @@ namespace API.Services
             var customerAccount = await _customerAccountRepository.GetCustomerAccountByCustomerIdAsync(customerId);
             if (customerAccount == null)
             {
-                throw new Exception();
+                throw new NotFoundException($"Could not retrieve CustomerAccount with CustomerId {customerId}");
             }
 
             return customerAccount;
@@ -61,7 +61,7 @@ namespace API.Services
             var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(depositDetails.CustomerAccountId);
             if (customerAccount == null)
             {
-                throw new Exception();
+                throw new NotFoundException($"Could not retrieve CustomerAccount with Id {depositDetails.CustomerAccountId}");
             }
 
             customerAccount.Balance += (depositDetails.DepositAmount * 0.99999);

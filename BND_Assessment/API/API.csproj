@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\API.Database\API.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.Database\API.Database.csproj" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>
