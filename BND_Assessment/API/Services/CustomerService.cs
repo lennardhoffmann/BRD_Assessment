@@ -23,5 +23,16 @@ namespace API.Services
             var updatedCustomer = await _customerRepository.UpdateCustomerAsync(customer);
             return updatedCustomer;
         }
+
+        public async Task<Customer> GetCustomerById(int id)
+        {
+            var customer = await _customerRepository.GetCustomerByIdAsync(id);
+            if (customer == null)
+            {
+                throw new Exception();
+            }
+
+            return customer;
+        }
     }
 }

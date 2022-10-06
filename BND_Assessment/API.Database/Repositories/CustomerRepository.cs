@@ -33,11 +33,6 @@ namespace Api.Database.Repositories
             return await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Customer> GetCustomerByAccountIdAsync(int id)
-        {
-            return await _context.Customers.FirstOrDefaultAsync(x => x.AccountId == id);
-        }
-
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
             return await _context.Customers.ToListAsync();
