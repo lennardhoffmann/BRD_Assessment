@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using API.Database.Models;
+using API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -8,36 +8,40 @@ namespace API.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+        private readonly ICustomerService _customerService;
+
+        public CustomersController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
+
         // GET: api/<CustomersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("customers")]
+        public async Task<IActionResult> GetAllCustomers()
         {
-            return new string[] { "value1", "value2" };
+            var customers = await _customerService.GetAllCustomers();
+            return Ok(customers);
         }
 
-        // GET api/<CustomersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("customer/{id}")]
+        public async Task<IActionResult> GetCustomer(int id)
         {
-            return "value";
+            var customer = await _customerService.GetCustomerById(id);
+            return Ok(customer);
         }
 
-        // POST api/<CustomersController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("customer")]
+        public async Task<IActionResult> Post([FromBody] Customer customerData)
         {
+            var response = await _customerService.CreateCustomer(customerData);
+            return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
 
-        // PUT api/<CustomersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("customer")]
+        public async Task<IActionResult> UpdateCustomer([FromBody] Customer customerData)
         {
-        }
-
-        // DELETE api/<CustomersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var updateResponse = await _customerService.UpdateCustomer(customerData);
+            return Ok(updateResponse);
         }
     }
 }

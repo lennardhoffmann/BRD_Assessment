@@ -15,7 +15,7 @@ namespace API.Services
         public async Task<Customer> CreateCustomer(Customer customer)
         {
             var createdCustomer = await _customerRepository.CreateCustomerAsync(customer);
-            if(createdCustomer == null)
+            if (createdCustomer == null)
             {
                 throw new Exception();
             }
@@ -38,6 +38,12 @@ namespace API.Services
             }
 
             return customer;
+        }
+
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
+        {
+            var customers = await _customerRepository.GetAllCustomersAsync();
+            return customers;
         }
     }
 }

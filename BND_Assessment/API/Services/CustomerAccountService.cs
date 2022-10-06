@@ -48,6 +48,12 @@ namespace API.Services
             return customerAccount;
         }
 
+        public async Task<IEnumerable<CustomerAccount>> GetAllCustomerAccounts()
+        {
+            var customerAccounts = await _customerAccountRepository.GetAllCustomerAccountsAsync();
+            return customerAccounts;
+        }
+
         public async Task<CustomerAccount> DepositAmount(int id, double amount)
         {
             var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(id);
@@ -63,7 +69,7 @@ namespace API.Services
             return updateResponse;
         }
 
-        private string GenerateIBAN()
+        private static string GenerateIBAN()
         {
             var controlCode = new Random().Next(0, 100).ToString("D");
             var bank = GetBankForIBAN();
@@ -72,7 +78,7 @@ namespace API.Services
             return $"{_countryIdentifier}{controlCode}{bank}{accountNumber}";
         }
 
-        private string GetBankForIBAN()
+        private static string GetBankForIBAN()
         {
             var bankValues = Enum.GetValues(typeof(Banks));
             var randomBank = (Banks)bankValues.GetValue(new Random().Next(bankValues.Length));
