@@ -19,7 +19,33 @@ namespace API.Services
             accountData.IBAN = GenerateIBAN();
 
             var createdAccount = await _customerAccountRepository.CreateCustomerAccountAsync(accountData);
+            if (createdAccount == null)
+            {
+                throw new Exception("The customer account could not be created");
+            }
             return createdAccount;
+        }
+
+        public async Task<CustomerAccount> GetCustomerAccountById(int id)
+        {
+            var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(id);
+            if (customerAccount == null)
+            {
+                throw new Exception();
+            }
+
+            return customerAccount;
+        }
+
+        public async Task<CustomerAccount> GetCustomerAccountByCusytomerId(int customerId)
+        {
+            var customerAccount = await _customerAccountRepository.GetCustomerAccountByCustomerIdAsync(customerId);
+            if (customerAccount == null)
+            {
+                throw new Exception();
+            }
+
+            return customerAccount;
         }
 
         private string GenerateIBAN()
