@@ -16,6 +16,7 @@ namespace API.Services
 
         public async Task<CustomerAccount> CreateCustomerAccount(CustomerAccount accountData)
         {
+            accountData.CreatedDate = DateTime.Now;
             accountData.IBAN = GenerateIBAN();
 
             var createdAccount = await _customerAccountRepository.CreateCustomerAccountAsync(accountData);
@@ -23,6 +24,7 @@ namespace API.Services
             {
                 throw new Exception("The customer account could not be created");
             }
+
             return createdAccount;
         }
 
@@ -54,17 +56,28 @@ namespace API.Services
             return customerAccounts;
         }
 
-        public async Task<CustomerAccount> DepositAmount(int id, double amount)
+        public async Task<CustomerAccount> DepositAmount(DepositDetails depositDetails)
         {
-            var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(id);
+            var customerAccount = await _customerAccountRepository.GetCustomerAccountByIdAsync(depositDetails.CustomerAccountId);
             if (customerAccount == null)
             {
                 throw new Exception();
             }
 
-            customerAccount.Balance += amount;
+            customerAccount.Balance += depositDetails.DepositAmount;
 
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
+
+            return updateResponse;
+        }
+
+        public async Task<CustomerAccount> UpdateCustomerAccount(CustomerAccount customerAccount)
+        {
+            var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
+            if (updateResponse == null)
+            {
+                throw new Exception();
+            }
 
             return updateResponse;
         }

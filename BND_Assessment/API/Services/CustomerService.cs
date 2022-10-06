@@ -14,6 +14,8 @@ namespace API.Services
 
         public async Task<Customer> CreateCustomer(Customer customer)
         {
+            customer.CreatedDate = DateTime.Now;
+
             var createdCustomer = await _customerRepository.CreateCustomerAsync(customer);
             if (createdCustomer == null)
             {

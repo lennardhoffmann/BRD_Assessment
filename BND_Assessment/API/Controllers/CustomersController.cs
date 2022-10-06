@@ -1,4 +1,5 @@
 ﻿using API.Database.Models;
+using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,15 @@ namespace API.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly ICustomerAccountService _customerAccountService;
 
-        public CustomersController(ICustomerService customerService)
+        public CustomersController(
+            ICustomerService customerService,
+            ICustomerAccountService customerAccountService
+            )
         {
             _customerService = customerService;
+            _customerAccountService = customerAccountService;
         }
 
         // GET: api/<CustomersController>
@@ -31,10 +37,20 @@ namespace API.Controllers
         }
 
         [HttpPost("customer")]
-        public async Task<IActionResult> Post([FromBody] Customer customerData)
+        public async Task<IActionResult> Post([FromBody] DetailedCustomer customerData)
         {
-            var response = await _customerService.CreateCustomer(customerData);
-            return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
+            var customerCreateResponse = await _customerService.CreateCustomer(customerData.CustomerDetails);
+            customerData.CustomerAccountDetails.CustomerId = customerCreateResponse.Id;
+
+            var accountCreateResponse = await _customerAccountService.CreateCustomerAccount(customerData.CustomerAccountDetails);
+
+            var createdData = new DetailedCustomer
+            {
+                CustomerDetails = customerCreateResponse,
+                CustomerAccountDetails = accountCreateResponse
+            };
+
+            return new ObjectResult(createdData) { StatusCode = StatusCodes.Status201Created };
         }
 
         [HttpPut("customer")]

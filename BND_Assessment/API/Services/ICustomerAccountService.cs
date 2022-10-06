@@ -1,4 +1,5 @@
 ﻿using API.Database.Models;
+using API.Models;
 
 namespace API.Services
 {
@@ -8,6 +9,7 @@ namespace API.Services
         Task<CustomerAccount> GetCustomerAccountById(int id);
         Task<IEnumerable<CustomerAccount>> GetAllCustomerAccounts();
         Task<CustomerAccount> GetCustomerAccountByCusytomerId(int customerId);
-        Task<CustomerAccount> DepositAmount(int id, double amount);
+        Task<CustomerAccount> DepositAmount(DepositDetails depositDetails);
+        Task<CustomerAccount> UpdateCustomerAccount(CustomerAccount customerAccount);
     }
 }

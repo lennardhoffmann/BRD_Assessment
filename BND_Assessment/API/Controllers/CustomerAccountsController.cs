@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using API.Database.Models;
+using API.Models;
+using API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -8,18 +9,30 @@ namespace API.Controllers
     [ApiController]
     public class CustomerAccountsController : ControllerBase
     {
-        // GET: api/<CustomerAccountsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ICustomerAccountService _customerAccountService;
+        private readonly IServiceChargeService _serviceChargeService;
+
+        public CustomerAccountsController(
+            ICustomerAccountService customerAccountService,
+            IServiceChargeService serviceChargeService
+            )
         {
-            return new string[] { "value1", "value2" };
+            _customerAccountService = customerAccountService;
+            _serviceChargeService = serviceChargeService;
         }
 
-        // GET api/<CustomerAccountsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("customerAccounts")]
+        public async Task<IActionResult> Get()
         {
-            return "value";
+            var customerAccounts = await _customerAccountService.GetAllCustomerAccounts();
+            return Ok(customerAccounts);
+        }
+
+        [HttpGet("customerAccount/{id}")]
+        public async Task<IActionResult> GetAccount(int id)
+        {
+            var customerAccount = await _customerAccountService.GetCustomerAccountById(id);
+            return Ok(customerAccount);
         }
 
         // POST api/<CustomerAccountsController>
@@ -28,16 +41,37 @@ namespace API.Controllers
         {
         }
 
-        // PUT api/<CustomerAccountsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("deposit")]
+        public async Task<IActionResult> DepositAmount([FromBody] DepositDetails depositDetails)
         {
+            var updateResponse = await _customerAccountService.DepositAmount(depositDetails);
+
+            var serviceCharge = new ServiceCharge
+            {
+                Amount = depositDetails.ServiceChargeAmount,
+                CustomerAccountReferenceId = depositDetails.CustomerAccountId,
+                TransactionDate = DateTime.Now
+            };
+
+            var serviceChargeCreateResponse = await _serviceChargeService.AddServiceCharge(serviceCharge);
+
+            return Ok(updateResponse);
         }
 
-        // DELETE api/<CustomerAccountsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("transfer")]
+        public async Task<IActionResult> TransferAmount([FromBody] InterCustomerTransfer transferDetails)
         {
+            var sourceCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
+            sourceCustomerAccount.Balance -= transferDetails.Amount;
+
+            var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
+
+            var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
+            targetCustomerAccount.Balance += transferDetails.Amount;
+
+            var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
+
+            return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }
     }
 }
