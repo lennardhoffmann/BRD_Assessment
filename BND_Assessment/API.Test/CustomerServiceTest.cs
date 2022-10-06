@@ -51,12 +51,12 @@ namespace API.Test
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            //var result = await _sut.GetCustomerById(customerId);
+            var result = await _sut.GetCustomerById(customerId);
 
-            //result.Id.Should().Be(customerId);
-            //result.FirstName.Should().Be(customer.FirstName);
-            //result.LastName.Should().Be(customer.LastName);
-            //result.Email.Should().Be(result.Email);
+            result.Id.Should().Be(customerId);
+            result.FirstName.Should().Be(customer.FirstName);
+            result.LastName.Should().Be(customer.LastName);
+            result.Email.Should().Be(result.Email);
         }
 
         [Fact]
@@ -68,9 +68,9 @@ namespace API.Test
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            //await _sut.Invoking(sut => sut.GetCustomerById(customerId))
-            //            .Should()
-            //            .ThrowAsync<Exception>();
+            await _sut.Invoking(sut => sut.GetCustomerById(customerId))
+                        .Should()
+                        .ThrowAsync<Exception>();
         }
     }
 }

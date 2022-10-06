@@ -35,7 +35,7 @@ namespace API.Test
 
             result.Id.Should().Be(1);
             result.CustomerId.Should().Be(customerId);
-            result.Balance.Should().Be(0);
+            result.Balance.Should().Be(100);
         }
 
         [Fact]
