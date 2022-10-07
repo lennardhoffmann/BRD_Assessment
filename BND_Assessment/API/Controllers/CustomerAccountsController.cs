@@ -100,7 +100,7 @@ namespace API.Controllers
                 CustomerAccountId = transferDetails.DestinationCustomerAccountId,
                 Description = TransactionType.TransferReceived
             };
-
+            //add try catch for revert
             await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);

@@ -53,7 +53,7 @@ namespace API.Services
                 throw new NotFoundException($"Could not retrieve CustomerAccount with Id {depositDetails.CustomerAccountId}");
             }
 
-            customerAccount.Balance += (depositDetails.DepositAmount * 0.99999);
+            customerAccount.Balance += (depositDetails.DepositAmount * 0.999);
 
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
 
