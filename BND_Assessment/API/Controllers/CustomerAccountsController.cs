@@ -24,14 +24,14 @@ namespace API.Controllers
             _transactionService = transactionService;
         }
 
-        [HttpGet("customerAccounts")]
+        [HttpGet("getAccounts")]
         public async Task<IActionResult> Get()
         {
             var customerAccounts = await _customerAccountService.GetAllCustomerAccounts();
             return Ok(customerAccounts);
         }
 
-        [HttpPost("cstomerAccount")]
+        [HttpPost("createAccount")]
         public async Task<IActionResult> CreateAccount([FromBody] CustomerAccount customerAccount)
         {
             var createdAccount = await _customerAccountService.CreateCustomerAccount(customerAccount);
@@ -39,7 +39,7 @@ namespace API.Controllers
             return new ObjectResult(createdAccount) { StatusCode = StatusCodes.Status201Created };
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getAccount/{id}")]
         public async Task<IActionResult> GetAccount(int id)
         {
             var customerAccount = await _customerAccountService.GetCustomerAccountById(id);
