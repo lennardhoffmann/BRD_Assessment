@@ -5,6 +5,7 @@ using API.Services;
 using API.Test.Mocks;
 using API.Test.ObjectBuilders;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Test
 {
@@ -25,7 +26,9 @@ namespace API.Test
         {
             var serviceCharge = new ServiceChargeBuilder().Build();
 
-            var result = await _sut.AddServiceCharge(serviceCharge);
+            await _sut.AddServiceCharge(serviceCharge);
+
+            var result = await _context.ServiceCharges.FirstOrDefaultAsync();
 
             result.Id.Should().Be(1);
             result.Amount.Should().Be(serviceCharge.Amount);

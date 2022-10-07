@@ -16,7 +16,7 @@ namespace API.Services
 
         public async Task<CustomerAccount> CreateCustomerAccount(CustomerAccount accountData)
         {
-            accountData.CreatedDate = DateTime.Now;
+            //accountData.CreatedDate = DateTime.Now;
             accountData.IBAN = GenerateIBAN();
 
             var createdAccount = await _customerAccountRepository.CreateCustomerAccountAsync(accountData);

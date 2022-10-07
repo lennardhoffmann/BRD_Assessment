@@ -31,8 +31,8 @@ namespace API.Test
             var result = await _context.TransactionHistory.FirstOrDefaultAsync();
 
             result.Id.Should().Be(1);
-            result.CustomerAccountId.Should().Be(1);
-            result.Amount.Should().Be(100);
+            result.CustomerAccountId.Should().Be(transaction.CustomerAccountId);
+            result.Amount.Should().Be(transaction.Amount);
         }
 
         [Fact]

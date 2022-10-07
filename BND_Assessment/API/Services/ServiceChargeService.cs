@@ -12,15 +12,13 @@ namespace API.Services
             _serviceChargeRepository = serviceChargeRepository;
         }
 
-        public async Task<ServiceCharge> AddServiceCharge(ServiceCharge serviceCharge)
+        public async Task AddServiceCharge(ServiceCharge serviceCharge)
         {
             var createdServiceCharge = await _serviceChargeRepository.AddServiceChargeAsync(serviceCharge);
             if (createdServiceCharge == null)
             {
                 throw new Exception();
             }
-
-            return createdServiceCharge;
         }
     }
 }

@@ -11,14 +11,17 @@ namespace API.Controllers
     {
         private readonly ICustomerAccountService _customerAccountService;
         private readonly IServiceChargeService _serviceChargeService;
+        private readonly ITransactionService _transactionService;
 
         public CustomerAccountsController(
             ICustomerAccountService customerAccountService,
-            IServiceChargeService serviceChargeService
+            IServiceChargeService serviceChargeService,
+            ITransactionService transactionService
             )
         {
             _customerAccountService = customerAccountService;
             _serviceChargeService = serviceChargeService;
+            _transactionService = transactionService;
         }
 
         [HttpGet("customerAccounts")]
@@ -33,7 +36,7 @@ namespace API.Controllers
         {
             var createdAccount = await _customerAccountService.CreateCustomerAccount(customerAccount);
 
-            return Ok();
+            return new ObjectResult(createdAccount) { StatusCode = StatusCodes.Status201Created };
         }
 
         [HttpGet("{id}")]
@@ -55,7 +58,17 @@ namespace API.Controllers
                 TransactionDate = DateTime.Now
             };
 
-            var serviceChargeCreateResponse = await _serviceChargeService.AddServiceCharge(serviceCharge);
+            await _serviceChargeService.AddServiceCharge(serviceCharge);
+
+            var transaction = new Transaction
+            {
+                Amount = (depositDetails.DepositAmount * 0.99999),
+                CustomerAccountId = depositDetails.CustomerAccountId,
+                Description = TransactionType.Deposit,
+                CreatedDate = DateTime.Now
+            };
+
+            await _transactionService.AddTransaction(transaction);
 
             return Ok(updateResponse);
         }
@@ -67,11 +80,28 @@ namespace API.Controllers
             sourceCustomerAccount.Balance -= transferDetails.Amount;
 
             var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
+            var sourceTransaction = new Transaction
+            {
+                Amount = transferDetails.Amount,
+                CustomerAccountId = transferDetails.SourceCustomerAccountId,
+                Description = TransactionType.TranferSent,
+                CreatedDate = DateTime.Now
+            };
+
+            await _transactionService.AddTransaction(sourceTransaction);
 
             var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
             targetCustomerAccount.Balance += transferDetails.Amount;
 
             var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
+            var targetTransaction = new Transaction
+            {
+                Amount = transferDetails.Amount,
+                CustomerAccountId = transferDetails.DestinationCustomerAccountId,
+                Description = TransactionType.TransferReceived
+            };
+
+            await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }
