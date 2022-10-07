@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {BrowserRouter as Router, Switch,Routes,Route } from 'react-router-dom';
+import { appRoutes } from '../utils';
+import CustomersComponent from './customerComponents/CustomersComponent';
+import { NavMenu } from './navComponents';
 
-export class Layout extends Component {
-  static displayName = Layout.name;
-
-  render() {
+export default _ => {
     return (
-        <div>
-            fjfgjfgj
+        <div style={{width: '100vw', height: '100vh'}}>
+            <div style={{display: 'flex', flexDirection: 'row', width: '100%',  height: '100%'}}>
+              <NavMenu/>
+              <div style={{display:'flex',flexDirection:'column', width:'100%', height:'100%', padding: '1vh'}}>
+               <Routes>
+                  <Route path={appRoutes.customers} element={<CustomersComponent/>} exact/>
+               </Routes>
+              </div>
+            </div>
       </div>
     );
-  }
 }

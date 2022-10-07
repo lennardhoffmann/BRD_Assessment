@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
-import { Layout } from './components/Layout';
+import React from 'react';
+import { LayoutComponent } from './components';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
+export default _ => {
     return (
-      <Layout>
-       
-      </Layout>
+      <LayoutComponent/>
     );
-  }
 }

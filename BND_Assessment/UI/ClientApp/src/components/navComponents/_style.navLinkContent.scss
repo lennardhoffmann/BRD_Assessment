@@ -1,0 +1,17 @@
+.navContentContainer{
+    display: flex;
+    flex-direction:row;
+    width:100%;
+    height:100% ;
+    border-radius:1vh ;
+    align-items: center;
+     font-size:2vh ;
+      margin-bottom: 2vh;
+      background-color: azure;
+
+      &:hover {
+        background-color:lightskyblue;
+        color: midnightblue;
+        font-weight: bold;
+        }
+}
