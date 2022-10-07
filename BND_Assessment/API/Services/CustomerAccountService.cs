@@ -39,17 +39,6 @@ namespace API.Services
             return customerAccount;
         }
 
-        public async Task<CustomerAccount> GetCustomerAccountByCusytomerId(int customerId)
-        {
-            var customerAccount = await _customerAccountRepository.GetCustomerAccountByCustomerIdAsync(customerId);
-            if (customerAccount == null)
-            {
-                throw new NotFoundException($"Could not retrieve CustomerAccount with CustomerId {customerId}");
-            }
-
-            return customerAccount;
-        }
-
         public async Task<IEnumerable<CustomerAccount>> GetAllCustomerAccounts()
         {
             var customerAccounts = await _customerAccountRepository.GetAllCustomerAccountsAsync();

@@ -28,6 +28,14 @@ namespace API.Controllers
             return Ok(customerAccounts);
         }
 
+        [HttpPost("cstomerAccount")]
+        public async Task<IActionResult> CreateAccount([FromBody] CustomerAccount customerAccount)
+        {
+            var createdAccount = await _customerAccountService.CreateCustomerAccount(customerAccount);
+
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccount(int id)
         {

@@ -14,13 +14,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("AssessmentDB"));
 
-builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<ICustomerAccountRepository, CustomerAccountRepository>();
 builder.Services.AddTransient<IServiceChargeRepository, ServiceChargeRepository>();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
 
-builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerAccountService, CustomerAccountService>();
 builder.Services.AddScoped<IServiceChargeService, ServiceChargeService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 
 var app = builder.Build();
