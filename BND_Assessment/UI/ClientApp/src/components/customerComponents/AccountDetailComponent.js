@@ -1,7 +1,9 @@
-import { Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import {  Button,  TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setActiveCustomer } from "../../state/stateFeatures/customerSlice";
+import { setActiveCustomer, toggleModal } from "../../state/stateFeatures/customerSlice";
+import { CustomerAccountService } from "../../services";
+import { showSnackbar, toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
 export default props =>{
     const dispatch = useDispatch();
@@ -10,11 +12,14 @@ export default props =>{
         lastName: null,
         email: null,
         iban: null,
-        balance: null
+        balance: null,
+        id: 0,
+        accountNumber: null
         });
 
-        const {firstName,lastName, email,iban, balance} = state;
+    const {firstName,lastName, email,iban, balance, accountNumber} = state;
 
+    
         useEffect(_=>{
             if(props.customerDetails && !firstName && !lastName && !email && !iban && !balance){
     setState({
@@ -22,7 +27,9 @@ export default props =>{
         lastName:props.customerDetails.lastName,
         email:props.customerDetails.email,
         iban:props.customerDetails.iban,
-        balance:props.customerDetails.balance
+        balance:props.customerDetails.balance,
+        accountNumber: props.customerDetails.accountNumber,
+        id: props.customerDetails.id
     })
             }
         })
@@ -31,8 +38,46 @@ export default props =>{
         setState({...state,[prop]: value})
       }  
 
+      const HandleCustomerSave =_=>{
+        dispatch(toggleLoadScreen(true))
+
+        if(!props.customerDetails){
+            CustomerAccountService.CreateCustomerAccount(state)
+            .then(_=>{
+                dispatch(toggleModal(false));
+    
+                setTimeout(() => {
+                    dispatch(setActiveCustomer(null));                
+                    toggleLoadScreen(false)
+                    dispatch(showSnackbar({show: true, message: "Customer created successfully"}));
+                }, 1000);
+            })
+        }
+
+        CustomerAccountService.UpdateCustomerAccount(state)
+        .then(_=>{
+            dispatch(toggleModal(false));
+
+            setTimeout(() => {
+                dispatch(setActiveCustomer(null));                
+                toggleLoadScreen(false)
+                dispatch(showSnackbar({show: true, message: "Customer updated successfully"}));
+            }, 1000);
+        })
+      }
+
+      const CheckDisabledSaveButton=_=>{
+        if(props.customerDetails)
+        return false;
+
+        if(firstName && lastName && email)
+        return false;
+
+        return true;
+      }
+
 return(
-    <div style={{display:'flex', flexDirection: 'column',width: '60%',height:'100%', padding: '1vh',  marginTop: '2vh'}}>
+    <div style={{display:'flex', flexDirection: 'column',width: '60%',height:'100%', padding: '1vh',  marginTop: '2vh'}}>       
         <TextField  
         variant="outlined" 
         label="First name" 
@@ -54,16 +99,24 @@ return(
         <TextField  
         variant="outlined" 
         label="Account number" 
+        value={accountNumber||""} 
+        style={{marginBottom: '1.5vh'}} 
+        disabled={true}/>
+        <TextField  
+        variant="outlined" 
+        label="IBAN" 
         value={iban||""} 
         style={{marginBottom: '1.5vh'}} 
         disabled={true}/>
         <TextField  
         variant="outlined" 
         label="Balance" 
-        value={balance || 0} 
+        value={balance || ""} 
+        type="number"
+        onChange={e=> HandleChange('balance', e.target.value)}
         style={{marginBottom: '1.5vh'}} 
-        disabled={true}/>
-        <Button variant="contained" style={{alignSelf: 'center'}} onClick={_=> dispatch(setActiveCustomer(state))}>Save</Button>
+        disabled={props.customerDetails}/>
+        <Button variant="contained" style={{alignSelf: 'center'}} onClick={_=> HandleCustomerSave()} disabled={CheckDisabledSaveButton()}>Save</Button>
     </div>
 )
 }

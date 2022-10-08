@@ -11,10 +11,6 @@ export default props =>{
 
     const {tab} = state;
 
-    useEffect(_=>{
-        console.log('state', activeCustomer)
-    })
-
     const handleChange = (event, newValue) => {
         setState({
             ...state,

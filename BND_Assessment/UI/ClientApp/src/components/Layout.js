@@ -1,8 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch,Routes,Route } from 'react-router-dom';
 import { appRoutes } from '../utils';
+import BackdropComponent from './BackdropComponent';
 import CustomersComponent from './customerComponents/CustomersComponent';
 import { NavMenu } from './navComponents';
+import SnackbarComponent from './SnackbarComponent';
 
 export default _ => {
     return (
@@ -13,6 +15,8 @@ export default _ => {
                <Routes>
                   <Route path={appRoutes.customers} element={<CustomersComponent/>} exact/>
                </Routes>
+               <BackdropComponent/>
+               <SnackbarComponent/>
               </div>
             </div>
       </div>

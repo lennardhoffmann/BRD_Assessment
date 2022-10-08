@@ -76,16 +76,15 @@ namespace API.Services
 
         private async Task<string> GenerateAccountNumber()
         {
-            var lastAccountNumberRecord = await _customerAccountRepository.GetLastAccountNumberAsync();
+            var lastAccountNumber = await _customerAccountRepository.GetLastAccountNumberAsync();
 
-            if (string.IsNullOrWhiteSpace(lastAccountNumberRecord) || lastAccountNumberRecord == "9999999999")
+            if (string.IsNullOrWhiteSpace(lastAccountNumber) || lastAccountNumber == "9999999999")
             {
-                lastAccountNumberRecord = "0000000000";
+                lastAccountNumber = "0000000000";
             }
 
-            var newAccountNumber = Int64.Parse(lastAccountNumberRecord);
-
-            return (newAccountNumber + 1).ToString("D10");
+            var newAccountNumber = Int64.Parse(lastAccountNumber) + 1;
+            return newAccountNumber.ToString("D10");
         }
 
         private static string GenerateIBAN(string accountNumber)

@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { customerReducer } from './stateFeatures';
+import { customerReducer, navigationReducer } from './stateFeatures';
 
 export default configureStore({
     reducer: {
-        customers: customerReducer
+        customers: customerReducer,
+        navigation: navigationReducer
     }
 })

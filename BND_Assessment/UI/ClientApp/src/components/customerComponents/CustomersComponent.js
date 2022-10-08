@@ -6,6 +6,7 @@ import { Button, Modal } from "@mui/material";
 import { setActiveCustomer, toggleModal } from "../../state/stateFeatures/customerSlice";
 import CustomerDetailComponent from "./CustomerDetailComponent";
 import CloseIcon from '@mui/icons-material/Close';
+import { toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
 export default _ =>{
     const customerState = useSelector(s=> s.customers);
@@ -13,16 +14,32 @@ export default _ =>{
    
     useEffect(_=>{
         if(!customerState.customers){
-            CustomerAccountService.GetCustomerAccounts();
+            dispatch(toggleLoadScreen(true));
+
+            CustomerAccountService.GetCustomerAccounts()
+            .then(_=>{
+                setTimeout(() => {                    
+                    dispatch(toggleLoadScreen(false))
+                }, 1500);
+            })
         }
+
+        setTimeout(() => {                    
+            dispatch(toggleLoadScreen(false))
+        }, 1500);
     });
+
+    const HandleModalClose=_=>{
+        dispatch(setActiveCustomer(null));
+        dispatch(toggleModal(false))
+    }
 
     const columns = [
         {
             field: "firstName",
             flex: 1,
             renderHeader: () =>(
-                <label>Customer Name</label>
+                <label style={{fontWeight: 'bold'}}>Customer Name</label>
             ),
             renderCell: (cellValues)=>(
                 <label>{`${cellValues.row.firstName} ${cellValues.row.lastName}`}</label>
@@ -32,7 +49,7 @@ export default _ =>{
             field: "iban",
             flex: 1,
             renderHeader: () =>(
-                <label>Account number</label>
+                <label style={{fontWeight: 'bold'}}>Account number</label>
             ),
             renderCell: (cellValues)=>(
                 <label>{cellValues.row.iban}</label>
@@ -42,7 +59,7 @@ export default _ =>{
             field: "balance",
             flex: 1,
             renderHeader: () =>(
-                <label>Account balance</label>
+                <label style={{fontWeight: 'bold'}}>Account balance</label>
             ),
             renderCell: (cellValues)=>(
                 <label>{cellValues.row.balance}</label>
@@ -65,10 +82,10 @@ export default _ =>{
     ];
 
     return(
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%', height:'100%',padding: '2vh', backgroundColor: 'lightyellow'}}>
+        <div style={{display: 'flex', flexDirection: 'column', width: '100%', height:'100%',padding: '2vh'}}>
             <Modal open={customerState.showModal} style={{display:'flex',flexDirection: 'column', justifyContent: 'center'}}>
                 <div style={{display: 'flex',flexDirection: 'column',width: '60%',height: '60%', backgroundColor: 'white', alignSelf: 'center'}}>
-<CloseIcon style={{alignSelf: 'flex-end'}} fontSize="large" onClick={_=> dispatch(toggleModal(false))}/>
+<CloseIcon style={{alignSelf: 'flex-end'}} fontSize="large" onClick={_=> HandleModalClose()}/>
                     <CustomerDetailComponent/>
                 </div>
             </Modal>
@@ -78,6 +95,7 @@ export default _ =>{
                 columns={columns}
                 checkboxSelection={false}
                 rows={customerState.customers}
+                rowsPerPageOptions={[5, 10, 20]}
                 />
             </div>
             }
