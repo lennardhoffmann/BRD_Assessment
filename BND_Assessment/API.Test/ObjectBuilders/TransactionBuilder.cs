@@ -11,7 +11,7 @@ namespace API.Test.ObjectBuilders
                 CustomerAccountId = 1,
                 Description = "",
                 Amount = 100,
-                CreatedDate = DateTime.Now
+                TransactionDate = DateTime.Now
             };
         }
     }

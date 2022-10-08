@@ -16,13 +16,13 @@ namespace API.Services
 
         public async Task<CustomerAccount> CreateCustomerAccount(CustomerAccount accountData)
         {
-            //accountData.CreatedDate = DateTime.Now;
+            accountData.CreatedDate = DateTime.Now;
             accountData.IBAN = GenerateIBAN();
 
             var createdAccount = await _customerAccountRepository.CreateCustomerAccountAsync(accountData);
             if (createdAccount == null)
             {
-                throw new Exception("The customer account could not be created");
+                throw new BadRequestException("The customer account could not be created");
             }
 
             return createdAccount;
@@ -53,7 +53,7 @@ namespace API.Services
                 throw new NotFoundException($"Could not retrieve CustomerAccount with Id {depositDetails.CustomerAccountId}");
             }
 
-            customerAccount.Balance += (depositDetails.DepositAmount * 0.99999);
+            customerAccount.Balance += (depositDetails.DepositAmount * 0.999);
 
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
 
@@ -65,7 +65,7 @@ namespace API.Services
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
             if (updateResponse == null)
             {
-                throw new Exception();
+                throw new BadRequestException($"Could not update customer account with Id {customerAccount.Id}");
             }
 
             return updateResponse;
@@ -78,6 +78,11 @@ namespace API.Services
             var accountNumber = new Random().NextInt64(1000000000, 9999999999).ToString("D10");
 
             return $"{_countryIdentifier}{controlCode}{bank}{accountNumber}";
+        }
+
+        private static string GenerateAccountNumber()
+        {
+            return "";
         }
 
         private static string GetBankForIBAN()

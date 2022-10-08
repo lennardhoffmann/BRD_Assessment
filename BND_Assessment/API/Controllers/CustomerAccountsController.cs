@@ -10,17 +10,14 @@ namespace API.Controllers
     public class CustomerAccountsController : ControllerBase
     {
         private readonly ICustomerAccountService _customerAccountService;
-        private readonly IServiceChargeService _serviceChargeService;
         private readonly ITransactionService _transactionService;
 
         public CustomerAccountsController(
             ICustomerAccountService customerAccountService,
-            IServiceChargeService serviceChargeService,
             ITransactionService transactionService
             )
         {
             _customerAccountService = customerAccountService;
-            _serviceChargeService = serviceChargeService;
             _transactionService = transactionService;
         }
 
@@ -51,24 +48,25 @@ namespace API.Controllers
         {
             var updateResponse = await _customerAccountService.DepositAmount(depositDetails);
 
-            var serviceCharge = new ServiceCharge
+            var serviceChargeTransaction = new Transaction
             {
-                Amount = (depositDetails.DepositAmount * 0.001),
-                CustomerAccountReferenceId = depositDetails.CustomerAccountId,
+                Amount = -(depositDetails.DepositAmount * 0.001),
+                CustomerAccountId = depositDetails.CustomerAccountId,
+                Description = TransactionType.ServiceCharge,
                 TransactionDate = DateTime.Now
             };
 
-            await _serviceChargeService.AddServiceCharge(serviceCharge);
+            await _transactionService.AddTransaction(serviceChargeTransaction);
 
-            var transaction = new Transaction
+            var depositTransaction = new Transaction
             {
                 Amount = (depositDetails.DepositAmount * 0.99999),
                 CustomerAccountId = depositDetails.CustomerAccountId,
                 Description = TransactionType.Deposit,
-                CreatedDate = DateTime.Now
+                TransactionDate = DateTime.Now
             };
 
-            await _transactionService.AddTransaction(transaction);
+            await _transactionService.AddTransaction(depositTransaction);
 
             return Ok(updateResponse);
         }
@@ -82,10 +80,10 @@ namespace API.Controllers
             var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
             var sourceTransaction = new Transaction
             {
-                Amount = transferDetails.Amount,
+                Amount = -transferDetails.Amount,
                 CustomerAccountId = transferDetails.SourceCustomerAccountId,
                 Description = TransactionType.TranferSent,
-                CreatedDate = DateTime.Now
+                TransactionDate = DateTime.Now
             };
 
             await _transactionService.AddTransaction(sourceTransaction);
@@ -98,9 +96,10 @@ namespace API.Controllers
             {
                 Amount = transferDetails.Amount,
                 CustomerAccountId = transferDetails.DestinationCustomerAccountId,
-                Description = TransactionType.TransferReceived
+                Description = TransactionType.TransferReceived,
+                TransactionDate = DateTime.Now
             };
-
+            //add try catch for revert
             await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);

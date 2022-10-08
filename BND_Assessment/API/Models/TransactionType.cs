@@ -5,5 +5,6 @@
         public const string Deposit = "Deposit";
         public const string TranferSent = "Transfer sent";
         public const string TransferReceived = "Transfer received";
+        public const string ServiceCharge = "Service Charge";
     }
 }
