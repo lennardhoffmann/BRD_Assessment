@@ -17,12 +17,13 @@ namespace API.Services
         public async Task<CustomerAccount> CreateCustomerAccount(CustomerAccount accountData)
         {
             accountData.CreatedDate = DateTime.Now;
-            accountData.IBAN = GenerateIBAN();
+            accountData.AccountNumber = await GenerateAccountNumber();
+            accountData.IBAN = GenerateIBAN(accountData.AccountNumber);
 
             var createdAccount = await _customerAccountRepository.CreateCustomerAccountAsync(accountData);
             if (createdAccount == null)
             {
-                throw new BadRequestException("The customer account could not be created");
+                throw new Exception("The customer account could not be created");
             }
 
             return createdAccount;
@@ -62,6 +63,8 @@ namespace API.Services
 
         public async Task<CustomerAccount> UpdateCustomerAccount(CustomerAccount customerAccount)
         {
+            customerAccount.ModifiedDate = DateTime.Now;
+
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
             if (updateResponse == null)
             {
@@ -71,19 +74,28 @@ namespace API.Services
             return updateResponse;
         }
 
-        private static string GenerateIBAN()
+        private async Task<string> GenerateAccountNumber()
+        {
+            var lastAccountNumberRecord = await _customerAccountRepository.GetLastAccountNumberAsync();
+
+            if (string.IsNullOrWhiteSpace(lastAccountNumberRecord) || lastAccountNumberRecord == "9999999999")
+            {
+                lastAccountNumberRecord = "0000000000";
+            }
+
+            var newAccountNumber = Int64.Parse(lastAccountNumberRecord);
+
+            return (newAccountNumber + 1).ToString("D10");
+        }
+
+        private static string GenerateIBAN(string accountNumber)
         {
             var controlCode = new Random().Next(0, 100).ToString("D");
             var bank = GetBankForIBAN();
-            var accountNumber = new Random().NextInt64(1000000000, 9999999999).ToString("D10");
 
             return $"{_countryIdentifier}{controlCode}{bank}{accountNumber}";
         }
 
-        private static string GenerateAccountNumber()
-        {
-            return "";
-        }
 
         private static string GetBankForIBAN()
         {

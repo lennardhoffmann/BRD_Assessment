@@ -21,7 +21,9 @@ namespace API.Services
                 LastName = "Hoffmann",
                 Email = "lennard@test.com",
                 Balance = 250,
-                IBAN = "NL94INGB3945944457"                
+                AccountNumber = "0000000001",
+                IBAN = "NL94INGB0000000001",
+                CreatedDate = DateTime.Now
             };
 
             var customer2 = new CustomerAccount
@@ -30,7 +32,9 @@ namespace API.Services
                 LastName = "verdriet",
                 Email = "peit@verdriet.com",
                 Balance = 300,
-                IBAN = "NL92ABNA1954254121",
+                AccountNumber = "0000000002",
+                IBAN = "NL92ABNA0000000002",
+                CreatedDate = DateTime.Now
             };
 
             database.Add(customer1);
