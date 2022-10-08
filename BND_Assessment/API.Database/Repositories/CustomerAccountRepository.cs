@@ -24,10 +24,7 @@ namespace API.Database.Repositories
         {
             return await _context.CustomerAccounts.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<CustomerAccount> GetCustomerAccountByCustomerIdAsync(int id)
-        {
-            return await _context.CustomerAccounts.FirstOrDefaultAsync(x => x.CustomerId == id);
-        }
+
         public async Task<CustomerAccount> UpdateCustomerAccountAsync(CustomerAccount account)
         {
             _context.CustomerAccounts.Update(account);

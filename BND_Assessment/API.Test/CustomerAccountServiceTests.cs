@@ -27,24 +27,19 @@ namespace API.Test
         [Fact]
         public async Task CreateCustomerAccount_WithValidParams_ReturnsCreatedCustomerAccount()
         {
-            var customerId = 1;
             var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
                                     .Build();
 
             var result = await _sut.CreateCustomerAccount(accountData);
 
             result.Id.Should().Be(1);
-            result.CustomerId.Should().Be(customerId);
             result.Balance.Should().Be(100);
         }
 
         [Fact]
         public async Task CreateCustomerAccount_WithValidParams_ShouldHaveValidIBAN()
         {
-            var customerId = 1;
             var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
                                     .Build();
 
             var result = await _sut.CreateCustomerAccount(accountData);
@@ -67,10 +62,8 @@ namespace API.Test
         [Fact]
         public async Task GetCustomerAccount_WithValidId_ReturnsCustomerAccount()
         {
-            var customerId = 1;
             var customerAccountId = 1;
             var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
                                     .Build();
 
             _context.CustomerAccounts.Add(accountData);
@@ -79,7 +72,6 @@ namespace API.Test
             var result = await _sut.GetCustomerAccountById(customerAccountId);
 
             result.Id.Should().Be(customerAccountId);
-            result.CustomerId.Should().Be(customerId);
             result.Balance.Should().Be(100);
         }
 
@@ -87,9 +79,7 @@ namespace API.Test
         public async Task GetCustomerAccount_InvalidId_ThrowsException()
         {
             var customerAccountId = -7;
-            var customerId = 1;
             var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
                                     .Build();
 
             _context.CustomerAccounts.Add(accountData);
@@ -101,44 +91,8 @@ namespace API.Test
         }
 
         [Fact]
-        public async Task GetCustomerAccount_WithValidCustomerId_ReturnsCustomerAccount()
-        {
-            var customerId = 1;
-            var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
-                                    .Build();
-
-            _context.CustomerAccounts.Add(accountData);
-            await _context.SaveChangesAsync();
-
-            var result = await _sut.GetCustomerAccountByCusytomerId(customerId);
-
-            result.Id.Should().Be(1);
-            result.CustomerId.Should().Be(customerId);
-            result.Balance.Should().Be(100);
-        }
-
-        [Fact]
-        public async Task GetCustomerAccount_InvalidCustomerId_ThrowsException()
-        {
-            var customerId = 1;
-            var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
-                                    .Build();
-
-            _context.CustomerAccounts.Add(accountData);
-            await _context.SaveChangesAsync();
-
-
-            await _sut.Invoking(sut => sut.GetCustomerAccountByCusytomerId(-5))
-                        .Should()
-                        .ThrowAsync<Exception>();
-        }
-
-        [Fact]
         public async Task DepositAmount_ReturnsUpdatedCustomerAccount()
         {
-            var customerId = 1;
             var depositDetails = new DepositDetails
             {
                 DepositAmount = 50,
@@ -146,7 +100,6 @@ namespace API.Test
             };
 
             var accountData = new CustomerAccountBuilder()
-                                    .WithCustomerId(customerId)
                                     .Build();
 
             var newBalance = accountData.Balance + (50 * 0.99999);

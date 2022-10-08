@@ -11,28 +11,39 @@ namespace API.Controllers
     {
         private readonly ICustomerAccountService _customerAccountService;
         private readonly IServiceChargeService _serviceChargeService;
+        private readonly ITransactionService _transactionService;
 
         public CustomerAccountsController(
             ICustomerAccountService customerAccountService,
-            IServiceChargeService serviceChargeService
+            IServiceChargeService serviceChargeService,
+            ITransactionService transactionService
             )
         {
             _customerAccountService = customerAccountService;
             _serviceChargeService = serviceChargeService;
+            _transactionService = transactionService;
         }
 
-        [HttpGet("customerAccounts")]
+        [HttpGet("getAccount/{id}")]
+        public async Task<IActionResult> GetAccount(int id)
+        {
+            var customerAccount = await _customerAccountService.GetCustomerAccountById(id);
+            return Ok(customerAccount);
+        }
+
+        [HttpGet("getAccounts")]
         public async Task<IActionResult> Get()
         {
             var customerAccounts = await _customerAccountService.GetAllCustomerAccounts();
             return Ok(customerAccounts);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAccount(int id)
+        [HttpPost("createAccount")]
+        public async Task<IActionResult> CreateAccount([FromBody] CustomerAccount customerAccount)
         {
-            var customerAccount = await _customerAccountService.GetCustomerAccountById(id);
-            return Ok(customerAccount);
+            var createdAccount = await _customerAccountService.CreateCustomerAccount(customerAccount);
+
+            return new ObjectResult(createdAccount) { StatusCode = StatusCodes.Status201Created };
         }
 
         [HttpPut("deposit")]
@@ -47,7 +58,17 @@ namespace API.Controllers
                 TransactionDate = DateTime.Now
             };
 
-            var serviceChargeCreateResponse = await _serviceChargeService.AddServiceCharge(serviceCharge);
+            await _serviceChargeService.AddServiceCharge(serviceCharge);
+
+            var transaction = new Transaction
+            {
+                Amount = (depositDetails.DepositAmount * 0.99999),
+                CustomerAccountId = depositDetails.CustomerAccountId,
+                Description = TransactionType.Deposit,
+                CreatedDate = DateTime.Now
+            };
+
+            await _transactionService.AddTransaction(transaction);
 
             return Ok(updateResponse);
         }
@@ -59,11 +80,28 @@ namespace API.Controllers
             sourceCustomerAccount.Balance -= transferDetails.Amount;
 
             var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
+            var sourceTransaction = new Transaction
+            {
+                Amount = transferDetails.Amount,
+                CustomerAccountId = transferDetails.SourceCustomerAccountId,
+                Description = TransactionType.TranferSent,
+                CreatedDate = DateTime.Now
+            };
+
+            await _transactionService.AddTransaction(sourceTransaction);
 
             var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
             targetCustomerAccount.Balance += transferDetails.Amount;
 
             var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
+            var targetTransaction = new Transaction
+            {
+                Amount = transferDetails.Amount,
+                CustomerAccountId = transferDetails.DestinationCustomerAccountId,
+                Description = TransactionType.TransferReceived
+            };
+            //add try catch for revert
+            await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }
