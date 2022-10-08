@@ -56,7 +56,7 @@ namespace API.Test
 
             await _sut.Invoking(sut => sut.CreateCustomerAccount(invalidCustomerAccount))
                         .Should()
-                        .ThrowAsync<Exception>();
+                        .ThrowAsync<BadRequestException>();
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace API.Test
 
             await _sut.Invoking(sut => sut.GetCustomerAccountById(customerAccountId))
                         .Should()
-                        .ThrowAsync<Exception>();
+                        .ThrowAsync<NotFoundException>();
         }
 
         [Fact]
