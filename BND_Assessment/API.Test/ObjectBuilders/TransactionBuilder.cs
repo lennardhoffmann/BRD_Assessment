@@ -1,4 +1,5 @@
 ﻿using API.Database.Models;
+using API.Models;
 
 namespace API.Test.ObjectBuilders
 {
@@ -9,7 +10,7 @@ namespace API.Test.ObjectBuilders
             return new Transaction
             {
                 CustomerAccountId = 1,
-                Description = "",
+                Description = "Test transaction",
                 Amount = 100,
                 TransactionDate = DateTime.Now
             };

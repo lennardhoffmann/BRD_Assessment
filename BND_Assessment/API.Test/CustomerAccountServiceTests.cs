@@ -56,7 +56,7 @@ namespace API.Test
 
             await _sut.Invoking(sut => sut.CreateCustomerAccount(invalidCustomerAccount))
                         .Should()
-                        .ThrowAsync<BadRequestException>();
+                        .ThrowAsync<Exception>();
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace API.Test
             var accountData = new CustomerAccountBuilder()
                                     .Build();
 
-            var newBalance = accountData.Balance + (50 * 0.99999);
+            var newBalance = Math.Round(accountData.Balance + (50 * 0.999),2);
 
             _context.CustomerAccounts.Add(accountData);
             await _context.SaveChangesAsync();
@@ -110,6 +110,44 @@ namespace API.Test
             var result = await _sut.DepositAmount(depositDetails);
 
             result.Balance.Should().Be(newBalance);
+        }
+
+        [Fact]
+        public async Task UpdateCustomerAccount_WithValidParams_ReturnsUpdatedCustomerAccount()
+        {
+            var customerAccountId = 1;
+            var newName = "This is a test";
+            var accountData = new CustomerAccountBuilder()
+                                    .Build();
+
+            _context.CustomerAccounts.Add(accountData);
+            await _context.SaveChangesAsync();
+
+            accountData.Id = customerAccountId;
+            accountData.FirstName = newName;
+
+            var result = await _sut.UpdateCustomerAccount(accountData);
+
+            result.Id.Should().Be(customerAccountId);
+            result.FirstName.Should().Be(newName);
+        }
+
+        [Fact]
+        public async Task UpdateCustomerAccount_WithInvalidParams_ThrowsException()
+        {
+            var invalidId = -5;
+            var accountData = new CustomerAccountBuilder()
+                                    .Build();
+
+            _context.CustomerAccounts.Add(accountData);
+            await _context.SaveChangesAsync();
+
+            accountData.Id = invalidId;
+
+
+            await _sut.Invoking(sut => sut.UpdateCustomerAccount(accountData))
+                        .Should()
+                        .ThrowAsync<Exception>();
         }
     }
 }

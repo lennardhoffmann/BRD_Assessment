@@ -7,14 +7,14 @@ import { showSnackbar } from '../state/stateFeatures/navigationSlice';
 export default _ =>{
     const state = useSelector(s => s.navigation.showSnackbar);
     const [anchor, setAnchor] = useState({
-        vertical: 'bottom',
+        vertical: 'top',
         horizontal: 'center'
     })
 
     if(state.show){
         setTimeout(() => {
             store.dispatch(showSnackbar({'show': false, 'message': ""}))
-        }, 2000);
+        }, 3000);
     }
 
     const {vertical, horizontal} = anchor;

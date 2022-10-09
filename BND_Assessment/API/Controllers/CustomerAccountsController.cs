@@ -81,13 +81,15 @@ namespace API.Controllers
         [HttpPut("transfer")]
         public async Task<IActionResult> TransferAmount([FromBody] InterCustomerTransfer transferDetails)
         {
+            var roundedAmount = Math.Round(transferDetails.Amount, 2);
+
             var sourceCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
-            sourceCustomerAccount.Balance -= transferDetails.Amount;
+            sourceCustomerAccount.Balance -= roundedAmount;
 
             var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
             var sourceTransaction = new Transaction
             {
-                Amount = -transferDetails.Amount,
+                Amount = -roundedAmount,
                 CustomerAccountId = transferDetails.SourceCustomerAccountId,
                 Description = TransactionType.TranferSent,
                 TransactionDate = DateTime.Now
@@ -96,18 +98,16 @@ namespace API.Controllers
             await _transactionService.AddTransaction(sourceTransaction);
 
             var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.DestinationCustomerAccountId);
-            targetCustomerAccount.Balance += transferDetails.Amount;
+            targetCustomerAccount.Balance += roundedAmount;
 
             var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
             var targetTransaction = new Transaction
             {
-                Amount = transferDetails.Amount,
+                Amount = roundedAmount,
                 CustomerAccountId = transferDetails.DestinationCustomerAccountId,
                 Description = TransactionType.TransferReceived,
                 TransactionDate = DateTime.Now
             };
-            //add try catch for revert
-            await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }

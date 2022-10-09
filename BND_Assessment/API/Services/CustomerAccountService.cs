@@ -68,7 +68,7 @@ namespace API.Services
             var updateResponse = await _customerAccountRepository.UpdateCustomerAccountAsync(customerAccount);
             if (updateResponse == null)
             {
-                throw new BadRequestException($"Could not update customer account with Id {customerAccount.Id}");
+                throw new Exception($"Could not update customer account with Id {customerAccount.Id}");
             }
 
             return updateResponse;
