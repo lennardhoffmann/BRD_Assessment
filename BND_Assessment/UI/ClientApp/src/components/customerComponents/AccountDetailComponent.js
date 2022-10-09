@@ -12,7 +12,7 @@ export default props =>{
         lastName: null,
         email: null,
         iban: null,
-        balance: null,
+        balance: 0,
         id: 0,
         accountNumber: null
         });

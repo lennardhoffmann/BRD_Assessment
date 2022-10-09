@@ -1,13 +1,13 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { CustomerAccountService, DepositService } from "../../services";
-import { store } from "../../state";
+import { useDispatch, useSelector } from "react-redux";
+import {  DepositService } from "../../services";
 import { showSnackbar, toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
 import './_style.depositComponent.scss'
 
 export default _=>{
+    const customerList = useSelector(s=>s.customers).customers;
     const dispatch = useDispatch();
     const[state,setState] = useState({
         amount:0,
@@ -18,26 +18,7 @@ export default _=>{
 
     const {amount,selectedCustomer,customers,amountError} = state;
 
-    useEffect(_=>{
-var customerList = store.getState().customers.customers;
-
-if(!customerList){
-    CustomerAccountService.GetCustomerAccounts()
-    .then(_=>{
-        customerList = store.getState().customers.customers;
-
-        if(customerList && customerList.length>0){
-            setState({...state,customers:customerList});
-        }
-    })
-}
-else{
-    setState({...state, customers:customerList});
-}
-    });
-
     const handleSelect = value =>{
-        console.log('val', value)
         setState({...state,selectedCustomer:value})
     }
 
@@ -66,7 +47,7 @@ DepositService.MakeCustomerDeposit(depositObj)
 setState({selectedCustomer: null, amount:0, amountError: false, customers: []});
     }
 
-    return<div className="mainDepositContainerBox">
+    return (
         <div className="depositBox">
             <label className="depositLabel">Deposit an amount to a customer account</label>
             <FormControl fullWidth>
@@ -78,7 +59,7 @@ setState({selectedCustomer: null, amount:0, amountError: false, customers: []});
             onChange={e=> handleSelect(e.target.value)}
             placeholder="Please select an account"
             >
-{customers.length > 0 && customers.map((customer,i)=>{
+{customerList && customerList.length > 0 && customerList.map((customer,i)=>{
     return <MenuItem key={`key-${i}-${customer.accountNumber}`} value={customer.id}>{`${customer.firstName} ${customer.lastName} | ${customer.iban}`}</MenuItem>
 })}
             </Select>
@@ -100,5 +81,5 @@ setState({selectedCustomer: null, amount:0, amountError: false, customers: []});
             style={{marginTop:'3vh',width: '20%',alignSelf: 'center'}}
             >Deposit amount</Button>
         </div>
-    </div>
+    )
 }

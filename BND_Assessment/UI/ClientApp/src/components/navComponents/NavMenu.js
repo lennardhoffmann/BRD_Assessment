@@ -16,7 +16,7 @@ export default _=>{
            <NavLink to="/deposits" className="navLink">
             <NavLinkContent icon={<MonetizationOnIcon fontSize="large"/>} label="Deposits"/>
             </NavLink>
-           <NavLink to="/" className="navLink">
+           <NavLink to="/transfers" className="navLink">
             <NavLinkContent icon={<CurrencyExchangeIcon fontSize="large"/>} label="Transfers"/>
                         </NavLink>
         </div>
