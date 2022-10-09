@@ -8,6 +8,8 @@ import CustomerDetailComponent from "./CustomerDetailComponent";
 import CloseIcon from '@mui/icons-material/Close';
 import { toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
+import './_style.customersComponent.scss';
+
 export default _ =>{
     const customerState = useSelector(s=> s.customers);
     const dispatch = useDispatch();
@@ -82,10 +84,10 @@ export default _ =>{
     ];
 
     return(
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%', height:'100%',padding: '2vh'}}>
-            <Modal open={customerState.showModal} style={{display:'flex',flexDirection: 'column', justifyContent: 'center'}}>
-                <div style={{display: 'flex',flexDirection: 'column',width: '60%',height: '60%', backgroundColor: 'white', alignSelf: 'center'}}>
-<CloseIcon style={{alignSelf: 'flex-end'}} fontSize="large" onClick={_=> HandleModalClose()}/>
+        <div className="customerBox">
+            <Modal open={customerState.showModal} className="modalBox">
+                <div className="modalDisplay">
+<CloseIcon style={{alignSelf: 'flex-end', cursor:"pointer"}} fontSize="large" onClick={_=> HandleModalClose()}/>
                     <CustomerDetailComponent/>
                 </div>
             </Modal>
@@ -101,14 +103,13 @@ export default _ =>{
                 />
             </div>
             
-            <div style={{display: 'flex',alignSelf: 'center', marginTop: '2vh'}}>
                 <Button variant="contained" 
+                style={{alignSelf: 'center', marginTop: '2vh'}}
                 onClick={_=>{
                     dispatch(toggleModal(true));
                 }}>
                     Add Customer
-                    </Button>
-            </div>
+                    </Button>            
             </>
             }
         </div>

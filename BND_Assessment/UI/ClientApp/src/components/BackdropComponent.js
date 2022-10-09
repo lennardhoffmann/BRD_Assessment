@@ -6,6 +6,6 @@ export default _ => {
     const show = useSelector(s => s.navigation.showBackdrop)
 
     return <Backdrop open={show}>
-        <CircularProgress style={{ 'color': '#31c5acd4' }} />
+        <CircularProgress style={{ 'color': 'blue' }} />
     </Backdrop>
 }

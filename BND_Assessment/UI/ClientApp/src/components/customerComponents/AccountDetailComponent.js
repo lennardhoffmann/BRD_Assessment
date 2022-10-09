@@ -5,6 +5,8 @@ import { setActiveCustomer, toggleModal } from "../../state/stateFeatures/custom
 import { CustomerAccountService } from "../../services";
 import { showSnackbar, toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
+import './_style.accountDetailComponent.scss';
+
 export default props =>{
     const dispatch = useDispatch();
     const [state,setState] = useState({
@@ -78,7 +80,7 @@ export default props =>{
       }
 
 return(
-    <div style={{display:'flex', flexDirection: 'column',width: '60%',height:'100%', padding: '1vh',  marginTop: '2vh'}}>       
+    <div className="accountDetailBox">       
         <TextField  
         variant="outlined" 
         label="First name" 
