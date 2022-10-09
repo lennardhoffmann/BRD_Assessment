@@ -1,5 +1,5 @@
-import {CustomerAccountService} from './CustomerAccountService';
-import {DepositService} from './DepositService'
-import {TransferService} from './TransferService'
+import { CustomerAccountService } from './CustomerAccountService';
+import { DepositService } from './DepositService'
+import { TransferService } from './TransferService'
 
-export {CustomerAccountService, DepositService, TransferService}
+export { CustomerAccountService, DepositService, TransferService }

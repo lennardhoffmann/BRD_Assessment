@@ -3,10 +3,10 @@ import { LayoutComponent } from './components';
 import { CustomerAccountService } from './services';
 
 export default _ => {
-  useEffect(_=>{
-    CustomerAccountService.GetCustomerAccounts();
-  })
+    useEffect(_ => {
+        CustomerAccountService.GetCustomerAccounts();
+    })
     return (
-      <LayoutComponent/>
+        <LayoutComponent />
     );
 }

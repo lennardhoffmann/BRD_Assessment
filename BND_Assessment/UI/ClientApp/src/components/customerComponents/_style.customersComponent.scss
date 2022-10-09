@@ -1,22 +1,22 @@
-.customerBox{
-    display: flex ;
+.customerBox {
+    display: flex;
     flex-direction: column;
     width: 100%;
-    height:100%;
+    height: 100%;
     padding: 2vh;
 }
 
-.modalDisplay{
-    display: flex ;
+.modalDisplay {
+    display: flex;
     flex-direction: column;
     width: 60%;
-    height:60%;
+    height: 60%;
     background-color: white;
     align-self: center
 }
 
-.modalBox{
-    display: flex ;
+.modalBox {
+    display: flex;
     flex-direction: column;
     justify-content: center;
 }

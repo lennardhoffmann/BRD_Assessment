@@ -14,18 +14,18 @@ export const customerSlice = createSlice({
         setCustomerList: (state, action) => {
             state.customers = action.payload
         },
-        toggleModal:(state, action)=>{
-state.showModal = action.payload
+        toggleModal: (state, action) => {
+            state.showModal = action.payload
         },
         clearState: (state) => {
             state.activeCustomer = null;
             state.customers = null;
-            state.showModal= false;
+            state.showModal = false;
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { setActiveCustomer, setCustomerList,toggleModal, clearState} = customerSlice.actions
+export const { setActiveCustomer, setCustomerList, toggleModal, clearState } = customerSlice.actions
 
 export default customerSlice.reducer

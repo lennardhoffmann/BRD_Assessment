@@ -1,3 +1,3 @@
 import DepositComponent from "./DepositComponent";
 
-export {DepositComponent}
+export { DepositComponent }

@@ -10,28 +10,28 @@ import { toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
 import './_style.customersComponent.scss';
 
-export default _ =>{
-    const customerState = useSelector(s=> s.customers);
+export default _ => {
+    const customerState = useSelector(s => s.customers);
     const dispatch = useDispatch();
-   
-    useEffect(_=>{
-        if(!customerState.customers){
+
+    useEffect(_ => {
+        if (!customerState.customers) {
             dispatch(toggleLoadScreen(true));
 
             CustomerAccountService.GetCustomerAccounts()
-            .then(_=>{
-                setTimeout(() => {                    
-                    dispatch(toggleLoadScreen(false))
-                }, 1500);
-            })
+                .then(_ => {
+                    setTimeout(() => {
+                        dispatch(toggleLoadScreen(false))
+                    }, 1500);
+                })
         }
 
-        setTimeout(() => {                    
+        setTimeout(() => {
             dispatch(toggleLoadScreen(false))
         }, 1500);
     });
 
-    const HandleModalClose=_=>{
+    const HandleModalClose = _ => {
         dispatch(setActiveCustomer(null));
         dispatch(toggleModal(false))
     }
@@ -40,30 +40,30 @@ export default _ =>{
         {
             field: "firstName",
             flex: 1,
-            renderHeader: () =>(
-                <label style={{fontWeight: 'bold'}}>Customer Name</label>
+            renderHeader: () => (
+                <label style={{ fontWeight: 'bold' }}>Customer Name</label>
             ),
-            renderCell: (cellValues)=>(
+            renderCell: (cellValues) => (
                 <label>{`${cellValues.row.firstName} ${cellValues.row.lastName}`}</label>
             )
         },
         {
             field: "iban",
             flex: 1,
-            renderHeader: () =>(
-                <label style={{fontWeight: 'bold'}}>Account number</label>
+            renderHeader: () => (
+                <label style={{ fontWeight: 'bold' }}>Account number</label>
             ),
-            renderCell: (cellValues)=>(
+            renderCell: (cellValues) => (
                 <label>{cellValues.row.iban}</label>
             )
         },
         {
             field: "balance",
             flex: 1,
-            renderHeader: () =>(
-                <label style={{fontWeight: 'bold'}}>Account balance</label>
+            renderHeader: () => (
+                <label style={{ fontWeight: 'bold' }}>Account balance</label>
             ),
-            renderCell: (cellValues)=>(
+            renderCell: (cellValues) => (
                 <label>{cellValues.row.balance}</label>
             )
         },
@@ -71,46 +71,46 @@ export default _ =>{
             field: "id",
             flex: 1,
             headerName: "",
-            renderCell: (cellValues)=>(
-                <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
-                    <Button variant="contained" 
-                    onClick={_ => {
-                        dispatch(setActiveCustomer(cellValues.row));
-                        dispatch(toggleModal(true));
+            renderCell: (cellValues) => (
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                    <Button variant="contained"
+                        onClick={_ => {
+                            dispatch(setActiveCustomer(cellValues.row));
+                            dispatch(toggleModal(true));
                         }}>View Account</Button>
                 </div>
             )
         }
     ];
 
-    return(
+    return (
         <div className="customerBox">
             <Modal open={customerState.showModal} className="modalBox">
                 <div className="modalDisplay">
-<CloseIcon style={{alignSelf: 'flex-end', cursor:"pointer"}} fontSize="large" onClick={_=> HandleModalClose()}/>
-                    <CustomerDetailComponent/>
+                    <CloseIcon style={{ alignSelf: 'flex-end', cursor: "pointer" }} fontSize="large" onClick={_ => HandleModalClose()} />
+                    <CustomerDetailComponent />
                 </div>
             </Modal>
-            <label style={{fontWeight: 'bold',fontSize:'2vh'}}>Customers</label>
-            { customerState.customers && 
-            <>
-            <div style={{width:'100%', height:'60%'}}>
-                <DataGrid
-                columns={columns}
-                checkboxSelection={false}
-                rows={customerState.customers}
-                rowsPerPageOptions={[5, 10, 20]}
-                />
-            </div>
-            
-                <Button variant="contained" 
-                style={{alignSelf: 'center', marginTop: '2vh'}}
-                onClick={_=>{
-                    dispatch(toggleModal(true));
-                }}>
-                    Add Customer
-                    </Button>            
-            </>
+            <label style={{ fontWeight: 'bold', fontSize: '2vh' }}>Customers</label>
+            {customerState.customers &&
+                <>
+                    <div style={{ width: '100%', height: '60%' }}>
+                        <DataGrid
+                            columns={columns}
+                            checkboxSelection={false}
+                            rows={customerState.customers}
+                            rowsPerPageOptions={[5, 10, 20]}
+                        />
+                    </div>
+
+                    <Button variant="contained"
+                        style={{ alignSelf: 'center', marginTop: '2vh' }}
+                        onClick={_ => {
+                            dispatch(toggleModal(true));
+                        }}>
+                        Add Customer
+                    </Button>
+                </>
             }
         </div>
     )

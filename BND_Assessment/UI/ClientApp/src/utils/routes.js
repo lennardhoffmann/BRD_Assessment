@@ -1,7 +1,7 @@
 const appRoutes = {
-customers: "/customers",
-transfers:"/transfers",
-deposits:"/deposits"
+    customers: "/customers",
+    transfers: "/transfers",
+    deposits: "/deposits"
 }
 
-export {appRoutes}
+export { appRoutes }

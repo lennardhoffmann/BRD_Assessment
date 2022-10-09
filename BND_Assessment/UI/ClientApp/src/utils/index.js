@@ -1,3 +1,3 @@
-import {appRoutes} from './routes'
+import { appRoutes } from './routes'
 
-export{appRoutes}
+export { appRoutes }
