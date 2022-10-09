@@ -6,6 +6,7 @@ namespace API.Test.ObjectBuilders
     {
         private double _balance = 100;
         private string _iban = "NL82RABO9154010896";
+        private string _accountNumber = "0000000001";
 
         public CustomerAccountBuilder WithBalance(double value)
         {
@@ -18,6 +19,7 @@ namespace API.Test.ObjectBuilders
             return new CustomerAccount
             {
                 Balance = _balance,
+                AccountNumber = _accountNumber,
                 IBAN = _iban,
                 FirstName = "Lennard",
                 LastName = "Testing",

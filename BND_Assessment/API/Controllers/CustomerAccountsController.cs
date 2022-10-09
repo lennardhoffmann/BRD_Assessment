@@ -43,6 +43,13 @@ namespace API.Controllers
             return new ObjectResult(createdAccount) { StatusCode = StatusCodes.Status201Created };
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount([FromBody] CustomerAccount customerAccount)
+        {
+            var updatedAccount = await _customerAccountService.UpdateCustomerAccount(customerAccount);
+            return Ok(updatedAccount);
+        }
+
         [HttpPut("deposit")]
         public async Task<IActionResult> DepositAmount([FromBody] DepositDetails depositDetails)
         {
@@ -50,7 +57,7 @@ namespace API.Controllers
 
             var serviceChargeTransaction = new Transaction
             {
-                Amount = -(depositDetails.DepositAmount * 0.001),
+                Amount = -Math.Round((depositDetails.DepositAmount * 0.001), 2),
                 CustomerAccountId = depositDetails.CustomerAccountId,
                 Description = TransactionType.ServiceCharge,
                 TransactionDate = DateTime.Now
@@ -60,7 +67,7 @@ namespace API.Controllers
 
             var depositTransaction = new Transaction
             {
-                Amount = (depositDetails.DepositAmount * 0.99999),
+                Amount = Math.Round((depositDetails.DepositAmount * 0.99999), 2),
                 CustomerAccountId = depositDetails.CustomerAccountId,
                 Description = TransactionType.Deposit,
                 TransactionDate = DateTime.Now
@@ -74,13 +81,15 @@ namespace API.Controllers
         [HttpPut("transfer")]
         public async Task<IActionResult> TransferAmount([FromBody] InterCustomerTransfer transferDetails)
         {
+            var roundedAmount = Math.Round(transferDetails.Amount, 2);
+
             var sourceCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
-            sourceCustomerAccount.Balance -= transferDetails.Amount;
+            sourceCustomerAccount.Balance -= roundedAmount;
 
             var updatedSourceCustomerAccount = await _customerAccountService.UpdateCustomerAccount(sourceCustomerAccount);
             var sourceTransaction = new Transaction
             {
-                Amount = -transferDetails.Amount,
+                Amount = -roundedAmount,
                 CustomerAccountId = transferDetails.SourceCustomerAccountId,
                 Description = TransactionType.TranferSent,
                 TransactionDate = DateTime.Now
@@ -88,19 +97,17 @@ namespace API.Controllers
 
             await _transactionService.AddTransaction(sourceTransaction);
 
-            var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
-            targetCustomerAccount.Balance += transferDetails.Amount;
+            var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.DestinationCustomerAccountId);
+            targetCustomerAccount.Balance += roundedAmount;
 
             var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
             var targetTransaction = new Transaction
             {
-                Amount = transferDetails.Amount,
+                Amount = roundedAmount,
                 CustomerAccountId = transferDetails.DestinationCustomerAccountId,
                 Description = TransactionType.TransferReceived,
                 TransactionDate = DateTime.Now
             };
-            //add try catch for revert
-            await _transactionService.AddTransaction(targetTransaction);
 
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }

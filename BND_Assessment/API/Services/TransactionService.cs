@@ -1,5 +1,6 @@
 ﻿using API.Database.Models;
 using API.Database.Repositories;
+using API.Models;
 
 namespace API.Services
 {
@@ -17,7 +18,7 @@ namespace API.Services
             var createdTransaction = await _transactionRepository.AddTransactionAsync(transaction);
             if (createdTransaction == null)
             {
-                throw new Exception($"Transacton could not be created for CustomerAccount with Id {transaction.CustomerAccountId}");
+                throw new BadRequestException($"Transacton could not be created for CustomerAccount with Id {transaction.CustomerAccountId}");
             }
         }
 

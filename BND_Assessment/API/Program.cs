@@ -38,4 +38,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+DatabaseSeedingService.SeedDatabase(app);
+
 app.Run();

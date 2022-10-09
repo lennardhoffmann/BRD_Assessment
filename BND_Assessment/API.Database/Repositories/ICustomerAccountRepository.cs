@@ -8,5 +8,6 @@ namespace API.Database.Repositories
         Task<CustomerAccount> GetCustomerAccountByIdAsync(int id);
         Task<CustomerAccount> UpdateCustomerAccountAsync(CustomerAccount account);
         Task<IEnumerable<CustomerAccount>> GetAllCustomerAccountsAsync();
+        Task<string> GetLastAccountNumberAsync();
     }
 }

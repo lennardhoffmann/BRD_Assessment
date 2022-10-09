@@ -36,5 +36,16 @@ namespace API.Database.Repositories
         {
             return await _context.CustomerAccounts.ToListAsync();
         }
+
+        public async Task<string> GetLastAccountNumberAsync()
+        {
+            var account = await _context.CustomerAccounts.LastOrDefaultAsync();
+            if (account == null)
+            {
+                return string.Empty;
+            }
+
+            return account.AccountNumber;
+        }
     }
 }

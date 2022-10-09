@@ -6,6 +6,7 @@ using API.Test.ObjectBuilders;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using API.Database.Models;
+using API.Models;
 
 namespace API.Test
 {

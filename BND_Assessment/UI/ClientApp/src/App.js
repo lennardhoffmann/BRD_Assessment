@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import { Layout } from './components/Layout';
+import React, { useEffect } from 'react';
+import { LayoutComponent } from './components';
+import { CustomerAccountService } from './services';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
+export default _ => {
+    useEffect(_ => {
+        CustomerAccountService.GetCustomerAccounts();
+    })
     return (
-      <Layout>
-       
-      </Layout>
+        <LayoutComponent />
     );
-  }
 }
