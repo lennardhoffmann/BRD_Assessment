@@ -79,6 +79,22 @@ UpdateCustomerAccount=customerData=>{
             .catch(err => reject(err))
     })
 }
+
+GetCustomerAccountTransactions=id=>{
+    return new Promise((resolve, reject) => {
+        fetch(
+            apiPaths.getCustomerAccountTransactions.replace('{Param}', id),
+            {
+                method: "GET"
+            }
+        )
+            .then(res => res.json())
+            .then(transactions => {
+                resolve(transactions);
+            })
+            .catch(err => reject(err))
+    })
+}
 }
 
 export const CustomerAccountService = new _CustomerAccountService();

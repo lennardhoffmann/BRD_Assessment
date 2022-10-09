@@ -95,7 +95,6 @@ namespace API.Services
             return $"{_countryIdentifier}{controlCode}{bank}{accountNumber}";
         }
 
-
         private static string GetBankForIBAN()
         {
             var bankValues = Enum.GetValues(typeof(Banks));

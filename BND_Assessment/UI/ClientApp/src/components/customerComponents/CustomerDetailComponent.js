@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tabs,Tab } from "@mui/material";
 import { useSelector } from "react-redux";
 import AccountDetailComponent from "./AccountDetailComponent";
+import TransactionDetailComponent from "./TransactionDetailComponent";
 
 export default props =>{
     const activeCustomer = useSelector(s=> s.customers).activeCustomer;
@@ -21,7 +22,9 @@ export default props =>{
     const GetCurrentView=_=>{
         switch(tab){
             case 0:
-                return <AccountDetailComponent customerDetails={activeCustomer}/>
+                return <AccountDetailComponent customerDetails={activeCustomer}/>;
+                case 1:
+                    return <TransactionDetailComponent customerDetails={activeCustomer}/>
                 default: break;
         }
     }

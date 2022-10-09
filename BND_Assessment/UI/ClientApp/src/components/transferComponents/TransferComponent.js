@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 import './_style.transferComponent.scss';
+import { TransferService } from "../../services";
+import { showSnackbar, toggleLoadScreen } from "../../state/stateFeatures/navigationSlice";
 
 export default _=>{
     const customerList = useSelector(s=>s.customers).customers;
+    const dispatch = useDispatch();
 
     const[state,setState]=useState({
 sourceCustomerList: null,
 targetCustomerList:null,
 sourceCustomer:null,
 targetCustomer:null,
-amount: 0,
+amount: null,
 amountError: false,
 maxAmount:null
     });
@@ -42,15 +45,43 @@ setState({...state, sourceCustomer: sourceId, targetCustomerList: filteredArray,
 
     const handleAmountChange = amt=>{
         if(amt && (amt < 1 || amt > maxAmount)){
-            setState({...state, amountError: true, amount: 0});
+            setState({...state, amountError: true, amount: null});
             return;
         }
 
         setState({...state, amount: amt, amountError: false})       
     }
 
+    const handleTransfer =_=>{
+        dispatch(toggleLoadScreen(true));
+
+        var transferObj = {
+            "sourceCustomerAccountId": sourceCustomer,
+        "destinationCustomerAccountId": targetCustomer,
+        "amount": amount
+    };
+
+    TransferService.MakeAccountTransfer(transferObj)
+    .then(_=>{
+        setTimeout(() => {                               
+            dispatch(toggleLoadScreen(false));
+            dispatch(showSnackbar({show: true, message: `An amount of ${amount} has successfully been transferred between the accounts`}));
+        }, 1000);
+    });
+
+    setState({
+        sourceCustomerList: null,
+targetCustomerList:null,
+sourceCustomer:null,
+targetCustomer:null,
+amount: null,
+amountError: false,
+maxAmount:null
+    });
+    }
+
     return(
-        <div style={{display: 'flex',flexDirection: 'column', width:'60%', height:'70%', alignSelf: 'center',backgroundColor: 'seashell', border: '1px solid grey',borderRadius:'1vh', padding: '2vh'}}>
+        <div className="trfComponentBox">
             <label style={{fontSize:'2vh', marginBottom:'2vh',fontWeight:'bold'}}>Transfer amount between customer accounts</label>
             <FormControl fullWidth>
             <InputLabel id="select-customer-label">Source customer account</InputLabel>
@@ -86,11 +117,18 @@ setState({...state, sourceCustomer: sourceId, targetCustomerList: filteredArray,
             helperText={amountError ? `Please specify an amount greater than 0 and less than ${maxAmount}` : ''}
             variant="outlined" 
             label="Amount" 
-            value={amount} 
+            value={amount||""} 
             type="number"
             onChange={e=> handleAmountChange(e.target.value)}
             style={{marginTop: '2vh', width: '40%'}}/>
             <label style={{fontStyle: 'italic'}}>{maxAmount && `Please not the maximum aount available for transfer is limited to ${maxAmount}. This is the balance of the source account`}</label>
+            <Button
+variant="contained"
+disabled={(!sourceCustomer || !sourceCustomer || !amount) && true}
+onClick={_ => handleTransfer()}
+style={{alignSelf: 'center', marginTop: '3vh', width: '30%'}}
+            >
+                Transer amount</Button>
         </div>
     )
 }

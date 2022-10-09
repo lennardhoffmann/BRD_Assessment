@@ -95,7 +95,7 @@ namespace API.Controllers
 
             await _transactionService.AddTransaction(sourceTransaction);
 
-            var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.SourceCustomerAccountId);
+            var targetCustomerAccount = await _customerAccountService.GetCustomerAccountById(transferDetails.DestinationCustomerAccountId);
             targetCustomerAccount.Balance += transferDetails.Amount;
 
             var updatedTargetCustomerAccount = await _customerAccountService.UpdateCustomerAccount(targetCustomerAccount);
