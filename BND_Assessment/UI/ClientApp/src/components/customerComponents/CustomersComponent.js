@@ -75,7 +75,7 @@ export default _ =>{
                     onClick={_ => {
                         dispatch(setActiveCustomer(cellValues.row));
                         dispatch(toggleModal(true));
-                        }}>Edit customer</Button>
+                        }}>View Account</Button>
                 </div>
             )
         }
@@ -90,7 +90,9 @@ export default _ =>{
                 </div>
             </Modal>
             <label style={{fontWeight: 'bold',fontSize:'2vh'}}>Customers</label>
-            { customerState.customers && <div style={{width:'100%', height:'60%'}}>
+            { customerState.customers && 
+            <>
+            <div style={{width:'100%', height:'60%'}}>
                 <DataGrid
                 columns={columns}
                 checkboxSelection={false}
@@ -98,7 +100,7 @@ export default _ =>{
                 rowsPerPageOptions={[5, 10, 20]}
                 />
             </div>
-            }
+            
             <div style={{display: 'flex',alignSelf: 'center', marginTop: '2vh'}}>
                 <Button variant="contained" 
                 onClick={_=>{
@@ -107,6 +109,8 @@ export default _ =>{
                     Add Customer
                     </Button>
             </div>
+            </>
+            }
         </div>
     )
 }

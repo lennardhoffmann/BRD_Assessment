@@ -1,3 +1,4 @@
 import {CustomerAccountService} from './CustomerAccountService';
+import {DepositService} from './DepositService'
 
-export {CustomerAccountService}
+export {CustomerAccountService, DepositService}

@@ -53,9 +53,9 @@ CreateCustomerAccount=customerData=>{
 UpdateCustomerAccount=customerData=>{
     return new Promise((resolve, reject) => {
         fetch(
-            apiPaths.updateCustomer('{Param}', customerData.id),
+            apiPaths.updateCustomer.replace('{Param}', customerData.id),
             {
-                method: "POST",
+                method: "PUT",
                 body: JSON.stringify(customerData),
                 headers: {
                     'Content-Type': 'application/json'

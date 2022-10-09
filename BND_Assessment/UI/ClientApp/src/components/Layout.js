@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch,Routes,Route } from 'react-router-dom';
 import { appRoutes } from '../utils';
 import BackdropComponent from './BackdropComponent';
 import CustomersComponent from './customerComponents/CustomersComponent';
+import DepositComponent from './depositComponents/DepositComponent';
 import { NavMenu } from './navComponents';
 import SnackbarComponent from './SnackbarComponent';
 
@@ -14,6 +15,7 @@ export default _ => {
               <div style={{display:'flex',flexDirection:'column', width:'100%', height:'100%', padding: '1vh'}}>
                <Routes>
                   <Route path={appRoutes.customers} element={<CustomersComponent/>} exact/>
+                  <Route path={appRoutes.deposits} element={<DepositComponent/>} exact/>
                </Routes>
                <BackdropComponent/>
                <SnackbarComponent/>

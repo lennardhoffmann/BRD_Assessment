@@ -53,17 +53,18 @@ export default props =>{
                 }, 1000);
             })
         }
-
-        CustomerAccountService.UpdateCustomerAccount(state)
-        .then(_=>{
-            dispatch(toggleModal(false));
-
-            setTimeout(() => {
-                dispatch(setActiveCustomer(null));                
-                toggleLoadScreen(false)
-                dispatch(showSnackbar({show: true, message: "Customer updated successfully"}));
-            }, 1000);
-        })
+        else{
+            CustomerAccountService.UpdateCustomerAccount(state)
+            .then(_=>{
+                dispatch(toggleModal(false));
+    
+                setTimeout(() => {
+                    dispatch(setActiveCustomer(null));                
+                    toggleLoadScreen(false)
+                    dispatch(showSnackbar({show: true, message: "Customer updated successfully"}));
+                }, 1000);
+            })
+        }
       }
 
       const CheckDisabledSaveButton=_=>{
@@ -115,7 +116,7 @@ return(
         type="number"
         onChange={e=> HandleChange('balance', e.target.value)}
         style={{marginBottom: '1.5vh'}} 
-        disabled={props.customerDetails}/>
+        disabled={true}/>
         <Button variant="contained" style={{alignSelf: 'center'}} onClick={_=> HandleCustomerSave()} disabled={CheckDisabledSaveButton()}>Save</Button>
     </div>
 )

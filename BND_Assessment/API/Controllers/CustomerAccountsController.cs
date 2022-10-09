@@ -43,6 +43,13 @@ namespace API.Controllers
             return new ObjectResult(createdAccount) { StatusCode = StatusCodes.Status201Created };
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount([FromBody] CustomerAccount customerAccount)
+        {
+            var updatedAccount = await _customerAccountService.UpdateCustomerAccount(customerAccount);
+            return Ok(updatedAccount);
+        }
+
         [HttpPut("deposit")]
         public async Task<IActionResult> DepositAmount([FromBody] DepositDetails depositDetails)
         {
@@ -50,7 +57,7 @@ namespace API.Controllers
 
             var serviceChargeTransaction = new Transaction
             {
-                Amount = -(depositDetails.DepositAmount * 0.001),
+                Amount = -Math.Round((depositDetails.DepositAmount * 0.001), 2),
                 CustomerAccountId = depositDetails.CustomerAccountId,
                 Description = TransactionType.ServiceCharge,
                 TransactionDate = DateTime.Now
@@ -60,7 +67,7 @@ namespace API.Controllers
 
             var depositTransaction = new Transaction
             {
-                Amount = (depositDetails.DepositAmount * 0.99999),
+                Amount = Math.Round((depositDetails.DepositAmount * 0.99999), 2),
                 CustomerAccountId = depositDetails.CustomerAccountId,
                 Description = TransactionType.Deposit,
                 TransactionDate = DateTime.Now

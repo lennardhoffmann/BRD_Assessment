@@ -1,7 +1,7 @@
 const appRoutes = {
 customers: "/customers",
 transfers:"/transfers",
-serviceCharges:"/serviceCharges"
+deposits:"/deposits"
 }
 
 export {appRoutes}
