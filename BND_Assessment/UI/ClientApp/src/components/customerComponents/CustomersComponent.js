@@ -64,7 +64,7 @@ export default _ => {
                 <label style={{ fontWeight: 'bold' }}>Account balance</label>
             ),
             renderCell: (cellValues) => (
-                <label>{cellValues.row.balance}</label>
+                <label>{cellValues.row.balance.toFixed(2)}</label>
             )
         },
         {
