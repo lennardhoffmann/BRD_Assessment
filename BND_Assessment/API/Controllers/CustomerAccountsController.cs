@@ -109,6 +109,8 @@ namespace API.Controllers
                 TransactionDate = DateTime.Now
             };
 
+            await _transactionService.AddTransaction(targetTransaction);
+
             return Ok(updatedSourceCustomerAccount != null && updatedTargetCustomerAccount != null);
         }
     }
